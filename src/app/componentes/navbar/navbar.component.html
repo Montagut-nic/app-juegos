@@ -1,0 +1,9 @@
+<app-boton [nombreBoton]="'Home'" routerLink="home" routerLinkActive=""></app-boton>
+<app-boton [nombreBoton]="'Juegos'" ></app-boton>
+@if (logueado) {
+    <app-boton [nombreBoton]="'Perfil'" ></app-boton>
+    <app-boton [nombreBoton]="'Desloguearse'" ></app-boton>
+    } @else {
+    <app-boton [nombreBoton]="'Loguearse'" routerLink="login" ></app-boton>
+    <app-boton [nombreBoton]="'Registrarse'" routerLink="register" ></app-boton>
+}
