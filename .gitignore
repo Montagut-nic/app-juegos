@@ -38,6 +38,7 @@ testem.log
 /typings
 /src/environments/*.ts
 /src/assets/*
+
 # System files
 .DS_Store
 Thumbs.db
