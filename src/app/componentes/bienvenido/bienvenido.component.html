@@ -1,1 +1,38 @@
-<p>bienvenido works!</p>
+<main class="container">
+  <h1>Casino Angular</h1>
+  <p style="margin-bottom: 2rem; font-family: 'Eagle Lake', cursive; color: #ffd700;">
+    ¡Elige tu juego y prueba tu suerte!
+  </p>
+
+  <section class="cards">
+    <!-- Juego Adivinar Número -->
+    <article class="card">
+      <div class="thumb slots"></div>
+      <h3>Juego 01</h3>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <button class="cta" (click)="juego = 'numero'">
+        Jugar
+      </button>
+    </article>
+
+    <!-- Juego 02 -->
+    <article class="card">
+      <div class="thumb roulette"></div>
+      <h3>Juego 02</h3>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <button class="cta" (click)="juego = 'numero'">
+        Jugar
+      </button>
+    </article>
+
+    <!-- Juego 03 -->
+    <article class="card">
+      <div class="thumb blackjack"></div>
+      <h3>Juego 03</h3>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <button class="cta" (click)="juego = 'blackjack'">
+        Jugar
+      </button>
+    </article>
+  </section>
+</main>

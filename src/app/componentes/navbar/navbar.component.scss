@@ -1,0 +1,5 @@
+@media (max-width: 720px){
+  .nav{ flex-wrap:wrap; row-gap:10px; }
+  .brand{ flex:1 1 100%; text-align:center; }
+  .pills{ width:100%; justify-content:center; flex-wrap:wrap; }
+}

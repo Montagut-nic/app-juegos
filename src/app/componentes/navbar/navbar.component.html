@@ -1,9 +1,17 @@
-<app-boton [nombreBoton]="'Home'" routerLink="home" routerLinkActive=""></app-boton>
-<app-boton [nombreBoton]="'Juegos'" ></app-boton>
-@if (logueado) {
-    <app-boton [nombreBoton]="'Perfil'" ></app-boton>
-    <app-boton [nombreBoton]="'Desloguearse'" ></app-boton>
-    } @else {
-    <app-boton [nombreBoton]="'Loguearse'" routerLink="login" ></app-boton>
-    <app-boton [nombreBoton]="'Registrarse'" routerLink="register" ></app-boton>
-}
+<header class="nav-wrap">
+    <nav class="nav">
+        <h1 class="brand">Casino Angular</h1>
+        <div>
+            <app-boton [nombreBoton]="'Home'" [Router_Link]="'home'"></app-boton>
+            <app-boton [nombreBoton]="'Juegos'" [Router_Link]="'juegos'"></app-boton>
+            @if (logueado) {
+            <app-boton [nombreBoton]="'Perfil'" [Router_Link]="'perfil'"></app-boton>
+            <app-boton [nombreBoton]="'Desloguearse'"></app-boton>
+            } @else {
+            <app-boton [nombreBoton]="'Loguearse'" [Router_Link]="'login'"></app-boton>
+            <app-boton [nombreBoton]="'Registrarse'" [Router_Link]="'register'"></app-boton>
+            }
+        </div>
+    </nav>
+    <div class="divider-shadow"></div>
+</header>

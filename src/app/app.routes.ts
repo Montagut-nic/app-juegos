@@ -2,12 +2,13 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './componentes/login/login.component';
 import { BienvenidoComponent } from './componentes/bienvenido/bienvenido.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
+import { Error404 } from './componentes/error-404/error-404';
 
 export const routes: Routes = [
     {
         path:'',
         pathMatch:"full",
-        redirectTo:"home"
+        redirectTo:"/home"
     },
     {
         path:"home",
@@ -25,18 +26,20 @@ export const routes: Routes = [
         path:"juegos",
         children:[
             {
-                path:"juego1",
+                path:"juego1", pathMatch: 'full', redirectTo: '/home'
             },
             {
-                path:"juego2",
+                path:"juego2", pathMatch: 'full', redirectTo: '/home'
             },
             {
-                path:"juego3",
+                path:"juego3", pathMatch: 'full', redirectTo: '/home'
             }
         ]
     },
     {
-        path:"er404"
+        path:"er404",
+        component: Error404
+
     },
     {
         path:"**",
