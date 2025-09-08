@@ -57,7 +57,7 @@ export class Supabase {
     return this._user$.value;
   }
 
-  async signInWithPassword(email: string, password: string): Promise<User> {
+  async logInWithPassword(email: string, password: string): Promise<User> {
     const { data, error } = await this._client.auth.signInWithPassword({
       email,
       password,
@@ -79,7 +79,7 @@ export class Supabase {
   }
 
   async saveUserData(authId: string,
-  patch: { userEmail?: string | null; userName?: string | null; avatar_url?: string | null; userActive?: boolean | null}): Promise<any | void> {
+  patch: { userEmail?: string | null; userName?: string | null; avatar_url?: string | null; userPoints?: number | null; userActive?: boolean | null}): Promise<any | void> {
     const payload: any = {authId}
     if (patch.userEmail !== undefined) {
       payload.email = patch.userEmail;
@@ -89,6 +89,9 @@ export class Supabase {
     }
     if (patch.avatar_url !== undefined) {
       payload.avatarUrl = patch.avatar_url;
+    }
+    if (patch.userPoints !== undefined) {
+      payload.puntos = patch.userPoints;
     }
     if (patch.userActive !== undefined) {
       payload.active = patch.userActive;
@@ -126,7 +129,7 @@ export class Supabase {
     });
     if (error) throw error;
 
-    await this.saveUserData(authID, { avatar_url: this._client.storage.from('images').getPublicUrl(data.path).data.publicUrl });
+    await this.saveUserData(authID, { avatar_url: data.path });
   }
 
   async getAvatarUrl(avatar_url: string) {

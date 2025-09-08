@@ -13,7 +13,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class BotonComponent {
 
 @Input() nombreBoton!: string;
-@Input() Router_Link!: string;
+@Input() Router_Link?: string;
 
 }
 

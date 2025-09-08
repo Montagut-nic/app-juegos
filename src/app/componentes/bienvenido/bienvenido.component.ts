@@ -11,5 +11,5 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class BienvenidoComponent {
 juego: any;
-
+logueado: boolean = false;
 }

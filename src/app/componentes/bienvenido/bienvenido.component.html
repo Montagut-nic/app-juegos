@@ -1,26 +1,41 @@
 <main class="container">
   <h1>Casino Angular</h1>
-  <p style="margin-bottom: 2rem; font-family: 'Eagle Lake', cursive; color: #ffd700;">
+  <p style="margin-bottom: 2rem; color: #a08a11; font-weight: bold;">
     ¡Elige tu juego y prueba tu suerte!
   </p>
 
+  @if(logueado) {
+    <p style="margin-bottom: 2rem; color: #a08a11; font-weight: bold;">
+      ¡Bienvenido usuario!
+      puntos:
+    </p>
+
+  }
   <section class="cards">
-    <!-- Juego Adivinar Número -->
+    
     <article class="card">
       <div class="thumb slots"></div>
-      <h3>Juego 01</h3>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <h3>El Ahorcado</h3>
+      <p>Adiviná la palabra letra a letra antes de que se complete el dibujo</p>
+      <button class="cta" (click)="juego = 'ahorcado'">
+        Jugar
+      </button>
+    </article>
+
+    <article class="card">
+      <div class="thumb roulette"></div>
+      <h3>Mayor o Menor</h3>
+      <p>Adiviná si la próxima carta será mayor o menor que la anterior y encadená tu mejor racha</p>
       <button class="cta" (click)="juego = 'numero'">
         Jugar
       </button>
     </article>
 
-    <!-- Juego 02 -->
     <article class="card">
-      <div class="thumb roulette"></div>
-      <h3>Juego 02</h3>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-      <button class="cta" (click)="juego = 'numero'">
+      <div class="thumb blackjack"></div>
+      <h3>Trivia Pokemon</h3>
+      <p>¿Quién es ese Pokémon? Solo con su silueta: elegí entre 4 opciones, uno es el correcto.</p>
+      <button class="cta" (click)="juego = 'blackjack'">
         Jugar
       </button>
     </article>
@@ -28,9 +43,9 @@
     <!-- Juego 03 -->
     <article class="card">
       <div class="thumb blackjack"></div>
-      <h3>Juego 03</h3>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-      <button class="cta" (click)="juego = 'blackjack'">
+      <h3>21 con dados</h3>
+      <p>Lanza los dados, el que quede más cerca sin pasar de 21 gana</p>
+      <button class="cta" (click)="juego = 'dados'">
         Jugar
       </button>
     </article>

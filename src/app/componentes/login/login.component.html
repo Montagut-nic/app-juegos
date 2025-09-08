@@ -1,3 +1,30 @@
-<input type="text" placeholder="Username" [(ngModel)]="user_username" />
-<input type="password" placeholder="Password" [(ngModel)]="user_password" />
-<app-boton [nombreBoton]="'Loguearse'" (click)="logOn()" ></app-boton>
+<main class="container">
+    <form class="login-form card" [formGroup]="form" (ngSubmit)="logOn()">
+        <label class="field">
+            <span>Email</span>
+            <input type="email" formControlName="email" inputmode="email" placeholder="tu@correo.com" />
+            @if(emailCtrl.touched && emailCtrl.invalid) { <small class="err">
+                Ingresá un email válido.
+            </small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Contraseña</span>
+            <input type="password" formControlName="password" placeholder="Tu contraseña" (keydown)="onPwKey($event)" />
+            @if(passwordCtrl.touched && passwordCtrl.invalid) { <small class="err">
+                Ingresá tu contraseña.
+            </small>
+            }
+            @if(capsOn()) { <small class="caps">Bloq Mayús activado</small>
+            }
+        </label>
+
+        <button type="submit" [disabled]="loading() || form.invalid">
+            {{ loading() ? 'Ingresando…' : 'Ingresar' }}
+        </button>
+
+        @if(errorMsg()) { <p class="err global">{{ errorMsg() }}</p>
+        }
+    </form>
+</main>

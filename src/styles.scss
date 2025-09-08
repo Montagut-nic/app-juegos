@@ -30,7 +30,7 @@ body {
 }
 
 body {
-  background: #0a0b0a ;
+  background: #0a0b0a;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center var(--ypos);
@@ -47,7 +47,7 @@ body::before {
   background: linear-gradient(180deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0));
   pointer-events: none;
   z-index: 0;
-  
+
 }
 
 .nav-wrap {
@@ -69,18 +69,20 @@ body::before {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  div{
+
+  div {
     display: flex;
     gap: 20px;
   }
 }
 
-.brand{
-  margin:0;
+.brand {
+  margin: 0;
   font: 700 clamp(20px, 4vw, 28px) Georgia, "Times New Roman", serif;
-  letter-spacing:1.5px;
-  color: var(--ink);                /* crema */
-  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+  letter-spacing: 1.5px;
+  color: var(--ink);
+  /* crema */
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
 }
 
 .pill {
@@ -195,15 +197,34 @@ h1.title {
   filter: brightness(1.08);
 }
 
+.error-404-img {
+  aspect-ratio: 2 / 1;
+  background:
+    center / contain no-repeat;
+  background-image: image-set(url('assets/joker-404_lossless.webp') type('image/webp'));
+  border-radius: 8px;
+  max-width: webkit-fill-available;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 980px) {
   .cards {
     grid-template-columns: 1fr;
   }
 }
-@media (min-aspect-ratio: 16/9){
-  body{ background-size: var(--zoom) auto; }   /* zoom por ancho */
+
+@media (min-aspect-ratio: 16/9) {
+  body {
+    background-size: var(--zoom) auto;
+  }
+
+  /* zoom por ancho */
 }
-@media (max-aspect-ratio: 16/9){
-  body{ background-size: auto var(--zoom); }   /* zoom por alto */
+
+@media (max-aspect-ratio: 16/9) {
+  body {
+    background-size: auto var(--zoom);
+  }
+
+  /* zoom por alto */
 }
