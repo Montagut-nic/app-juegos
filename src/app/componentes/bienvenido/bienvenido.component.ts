@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { BotonComponent } from '../boton/boton.component';
+
 
 @Component({
   selector: 'app-bienvenido',
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, BotonComponent],
   templateUrl: './bienvenido.component.html',
   styleUrls: ['./bienvenido.component.scss']
 })

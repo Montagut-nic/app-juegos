@@ -1,7 +1,7 @@
 <main class="container">
   <h1>Casino Angular</h1>
   <p style="margin-bottom: 2rem; color: #a08a11; font-weight: bold;">
-    ¡Elige tu juego y prueba tu suerte!
+    ¡Elegí tu juego y probá tu suerte!
   </p>
 
   @if(logueado) {
@@ -16,7 +16,7 @@
     <article class="card">
       <div class="thumb slots"></div>
       <h3>El Ahorcado</h3>
-      <p>Adiviná la palabra letra a letra antes de que se complete el dibujo</p>
+      <p>Adiviná la palabra letra a letra antes de que se complete el dibujo.</p>
       <button class="cta" (click)="juego = 'ahorcado'">
         Jugar
       </button>
@@ -25,7 +25,7 @@
     <article class="card">
       <div class="thumb roulette"></div>
       <h3>Mayor o Menor</h3>
-      <p>Adiviná si la próxima carta será mayor o menor que la anterior y encadená tu mejor racha</p>
+      <p>Adiviná si la próxima carta será mayor o menor que la anterior y encadená tu mejor racha.</p>
       <button class="cta" (click)="juego = 'numero'">
         Jugar
       </button>
@@ -35,16 +35,13 @@
       <div class="thumb blackjack"></div>
       <h3>Trivia Pokemon</h3>
       <p>¿Quién es ese Pokémon? Solo con su silueta: elegí entre 4 opciones, uno es el correcto.</p>
-      <button class="cta" (click)="juego = 'blackjack'">
-        Jugar
-      </button>
+      <app-boton [nombreBoton]="'Jugar'" [Router_Link]="'juego/trivia-pokemon'"></app-boton>
     </article>
 
-    <!-- Juego 03 -->
     <article class="card">
       <div class="thumb blackjack"></div>
       <h3>21 con dados</h3>
-      <p>Lanza los dados, el que quede más cerca sin pasar de 21 gana</p>
+      <p>Lanza los dados, el que quede más cerca de 21 sin pasarse, gana.</p>
       <button class="cta" (click)="juego = 'dados'">
         Jugar
       </button>

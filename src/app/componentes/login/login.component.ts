@@ -13,11 +13,18 @@ import { Supabase } from '../../core/supabase';
 })
 
 export class LoginComponent {
+autocompletar() {
+  this.form.setValue({
+    email: 'nicolas@gmail.com',
+    password: 'Trend123!'
+  });
+}
 
   form: FormGroup;
   user?: Usuario;
   loading = signal(false);
   errorMsg = signal<string | null>(null);
+  capsOn = signal(false);
 
   constructor(private supabase: Supabase, private router: Router, private fb: FormBuilder) {
     
@@ -32,7 +39,7 @@ export class LoginComponent {
   onPwKey(event: KeyboardEvent) {
     this.capsOn.set(event.getModifierState?.('CapsLock') ?? false);
   }
-  capsOn = signal(false);
+  
 
   async logOn() {
     if (this.form.invalid || this.loading()) return;
@@ -42,7 +49,7 @@ export class LoginComponent {
       const usuario = await this.supabase.logInWithPassword(this.form.value.email, this.form.value.password);
       const user_data = await this.supabase.getUserData(usuario.id);
       if (user_data.active) {
-        this.user = new Usuario(user_data.authId, user_data.email, user_data.name, user_data.avatarUrl, user_data.puntos, user_data.active);
+        this.user = new Usuario(user_data.authId, user_data.email, user_data.name, user_data.avatarUrl, user_data.puntos, user_data.active, usuario.created_at);
         this.router.navigate(['/home']);
       } else {
         this.errorMsg.set('Tu cuenta no está activa. Contacta con un administrador.');

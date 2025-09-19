@@ -57,6 +57,11 @@ export class Supabase {
     return this._user$.value;
   }
 
+  async isLoggedIn(): Promise<boolean> {
+    const session = await this.session;
+  return !!session;
+}
+
   async logInWithPassword(email: string, password: string): Promise<User> {
     const { data, error } = await this._client.auth.signInWithPassword({
       email,
@@ -69,13 +74,13 @@ export class Supabase {
   async signUpWithPassword(
     email: string,
     password: string,
-  ): Promise<User | null> {
+  ): Promise<User> {
     const { data, error } = await this._client.auth.signUp({
       email,
       password
     });
     if (error) throw error;
-    return data.user ?? null;
+    return data.session!.user;
   }
 
   async saveUserData(authId: string,

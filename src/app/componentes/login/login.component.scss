@@ -6,6 +6,18 @@
     color: var(--text, #e8e6df);
 }
 
+.container {
+    
+    margin: 0 auto;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    display: flex;
+    align-items: center;
+}
+
+
+
 .field {
     display: grid;
     gap: 6px;

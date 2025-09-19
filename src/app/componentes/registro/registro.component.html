@@ -1,1 +1,69 @@
-<p>registro works!</p>
+<main class="container">
+    <form class="register-form card" [formGroup]="form" (ngSubmit)="submit()">
+        <label class="field">
+            <span>Nombre</span>
+            <input type="text" formControlName="name" placeholder="Tu nombre" />
+            @if(nameCtrl.touched && nameCtrl.invalid){
+            <small class="err">Ingresá tu nombre. Mínimo 2 caracteres.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Correo</span>
+            <input type="email" formControlName="email" inputmode="email" placeholder="tu@correo.com" />
+            @if(emailCtrl.touched && emailCtrl.invalid){
+            <small class="err">Ingresá una dirección de correo válida.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Contraseña</span>
+            <input type="password" formControlName="password" autocomplete="new-password" placeholder="Tu contraseña"
+                (keydown)="onPwKey($event)" />
+            @if(capsOn()){
+            <small class="caps">Bloq Mayús activado</small>
+            }
+
+            @if(showPwHints){
+            <div class="hints" aria-live="polite">
+                <p [class.ok]="!pwCtrl.hasError('length')">La contraseña debe tener entre 8 y 32 caracteres.</p>
+                <p [class.ok]="!pwCtrl.hasError('lowercase')">La contraseña debe tener al menos 1 minúscula.</p>
+                <p [class.ok]="!pwCtrl.hasError('uppercase')">La contraseña debe tener al menos 1 mayúscula.</p>
+                <p [class.ok]="!pwCtrl.hasError('digit')">La contraseña debe tener al menos 1 número.</p>
+                <p [class.ok]="!pwCtrl.hasError('special')">La contraseña debe tener al menos 1 carácter especial.</p>
+                <p [class.ok]="!pwCtrl.hasError('whitespace')">La contraseña no debe tener espacios.</p>
+            </div>
+            }
+        </label>
+
+        <label class="field">
+            <span>Confirmar contraseña</span>
+            <input type="password" formControlName="confirmPassword" autocomplete="new-password"
+                placeholder="Repetí tu contraseña" />
+            @if((pw2Ctrl.touched || pw2Ctrl.dirty) && pwMismatch){
+            <small class="err">Las contraseñas no coinciden.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Imagen de avatar</span>
+            <input type="file" (change)="onFileChange($event)"
+                accept=".jpg,.jpeg,.png,image/jpeg,image/png" #fileInput />
+            @if(avatarCtrl.touched && avatarCtrl.invalid){
+            @if(avatarCtrl.hasError('required')){ <small class="err">Seleccioná una imagen.</small> }
+            @if(avatarCtrl.hasError('type')){ <small class="err">Formato no permitido. Sólo JPG o PNG.</small> }
+            @if(avatarCtrl.hasError('empty')){ <small class="err">El archivo está vacío.</small> }
+            @if(avatarCtrl.hasError('maxSize')){ <small class="err">El archivo supera los 2MB.</small> }
+            }
+            <button type="button" (click)="clearAvatar(fileInput)">Quitar</button>
+        </label>
+
+        <button type="submit" [disabled]="loading() || form.invalid">
+            {{ loading() ? 'Creando cuenta…' : 'Crear cuenta' }}
+        </button>
+
+        @if(errorMsg()){
+        <p class="err global">{{ errorMsg() }}</p>
+        }
+    </form>
+</main>

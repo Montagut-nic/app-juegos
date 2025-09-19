@@ -1,4 +1,9 @@
 <main class="container">
+    <article class="card">
+        <button class="cta" (click)="autocompletar()">
+        Autocompletar
+      </button>
+    </article>
     <form class="login-form card" [formGroup]="form" (ngSubmit)="logOn()">
         <label class="field">
             <span>Email</span>
