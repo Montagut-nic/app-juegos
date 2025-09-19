@@ -47,8 +47,10 @@ autocompletar() {
     this.errorMsg.set(null);
     try {
       const usuario = await this.supabase.logInWithPassword(this.form.value.email, this.form.value.password);
+      console.log(usuario);
       const user_data = await this.supabase.getUserData(usuario.id);
       if (user_data.active) {
+        console.log('Login exitoso:', user_data);
         this.user = new Usuario(user_data.authId, user_data.email, user_data.name, user_data.avatarUrl, user_data.puntos, user_data.active, usuario.created_at);
         this.router.navigate(['/home']);
       } else {
@@ -60,6 +62,7 @@ autocompletar() {
         this.errorMsg.set('Email o contraseña incorrectos.');
       } else {
         this.errorMsg.set('No pudimos iniciar sesión. Intentalo de nuevo.');
+        console.log(msg);
       }
     } finally {
       this.loading.set(false);

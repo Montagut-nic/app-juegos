@@ -85,7 +85,7 @@ export class Supabase {
 
   async saveUserData(authId: string,
   patch: { userEmail?: string | null; userName?: string | null; avatar_url?: string | null; userPoints?: number | null; userActive?: boolean | null}): Promise<any | void> {
-    const payload: any = {authId}
+    const payload: any = { authId };
     if (patch.userEmail !== undefined) {
       payload.email = patch.userEmail;
     }
@@ -102,7 +102,12 @@ export class Supabase {
       payload.active = patch.userActive;
     }
 
-    const { data, error } = await this._client.from('registros_usuarios').upsert(payload, { onConflict:'authId' }).select().single();
+    // Ensure we don't send nulls for NOT NULL columns; rely on DB defaults where possible
+    const { data, error } = await this._client
+      .from('registros_usuarios')
+      .upsert(payload, { onConflict: 'authId' })
+      .select()
+      .single();
     if (error) throw error;
     return data;
   }
@@ -115,7 +120,7 @@ export class Supabase {
 
   async saveFile(avatarFile: File, authID: string){
     let ext: string;
-    switch (avatarFile.type) {
+    switch (avatarFile.type.toLowerCase()) {
       case 'image/jpeg':
         ext = '.jpeg';
         break;
@@ -134,7 +139,12 @@ export class Supabase {
     });
     if (error) throw error;
 
-    await this.saveUserData(authID, { avatar_url: data.path });
+    
+    const { error: updateError } = await this._client
+      .from('registros_usuarios')
+      .update({ avatarUrl: data.path })
+      .eq('authId', authID);
+    if (updateError) throw updateError;
   }
 
   async getAvatarUrl(avatar_url: string) {

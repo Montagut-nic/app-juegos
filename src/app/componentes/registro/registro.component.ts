@@ -93,7 +93,7 @@ export class RegistroComponent {
     this.avatarCtrl.markAsDirty();
 
     if (!file) {
-      this.avatarCtrl.setValue(null);              
+      this.avatarCtrl.setValue(null);
       this.avatarCtrl.updateValueAndValidity();
       return;
     }
@@ -102,8 +102,8 @@ export class RegistroComponent {
   }
 
   clearAvatar(input: HTMLInputElement) {
-    input.value = '';              
-    this.avatarCtrl.reset(null);   
+    input.value = '';
+    this.avatarCtrl.reset(null);
   }
 
 
@@ -116,13 +116,14 @@ export class RegistroComponent {
 
     try {
       const user = await this.supabase.signUpWithPassword(email!, password!);
-
+      console.log('Usuario registrado:', user);
       // Guarda/actualiza la ficha de usuario en la tabla
       await this.supabase.saveUserData(user.id, {
         userName: name,
         userEmail: email,
         userActive: true
       });
+      console.log('Datos de usuario guardados/actualizados');
 
       // Guarda el avatar en Storage y actualiza con la URL
       const file: File | null = this.form.get('avatar')?.value;
@@ -132,6 +133,7 @@ export class RegistroComponent {
 
       // Redirigir a home
       if (await this.supabase.isLoggedIn()) {
+        console.log('Usuario registrado y autenticado:', user);
         await this.router.navigateByUrl('/home');
       }
     } catch (err: any) {
@@ -140,6 +142,7 @@ export class RegistroComponent {
         this.errorMsg.set('El email ya está registrado.');
       } else {
         this.errorMsg.set('No pudimos crear tu cuenta. Intentá de nuevo.');
+        console.log(msg);
       }
     } finally {
       this.loading.set(false);

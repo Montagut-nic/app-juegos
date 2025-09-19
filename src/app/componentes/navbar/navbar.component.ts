@@ -14,7 +14,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class NavbarComponent {
   private readonly supabase = inject(Supabase);
-  user = toSignal(this.supabase.user$, { initialValue: this.supabase.user });
+  user: Signal<User | null> = toSignal<User | null>(this.supabase.user$, { initialValue: null });
   get isLoggedIn() { return !!this.user(); }
 
   constructor(private router: Router) {

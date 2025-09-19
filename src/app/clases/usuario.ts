@@ -1,4 +1,3 @@
-import { inject } from "@angular/core";
 import { Supabase } from "../core/supabase";
 export class Usuario {
 
@@ -10,7 +9,6 @@ export class Usuario {
     active: boolean;
     fechaRegistro: string;
 
-    private supabase: Supabase = inject(Supabase);
 
     constructor(user_id: string, user_email: string, user_name: string, avatar_url: string = "", user_points: number = 0, user_active: boolean = false, fecha_registro: string = "") {
         this.authId = user_id;
@@ -22,8 +20,8 @@ export class Usuario {
         this.active = user_active;
     }
 
-    async saveFullUser() {
-        this.supabase.saveUserData(this.authId, {
+    async saveFullUser(supabase: Supabase) {
+        await supabase.saveUserData(this.authId, {
             userEmail: this.email,
             userName: this.name,
             avatar_url: this.avatarUrl,
@@ -32,23 +30,23 @@ export class Usuario {
         });
     }
 
-    async savePoints(points: number) {
+    async savePoints(points: number, supabase: Supabase) {
         this.puntos += points;
-        this.supabase.saveUserData(this.authId, {
+        await supabase.saveUserData(this.authId, {
             userPoints: this.puntos
         });
     }
 
-    async saveNewName(new_name: string) {
+    async saveNewName(new_name: string, supabase: Supabase) {
         this.name = new_name;
-        this.supabase.saveUserData(this.authId, {
+        await supabase.saveUserData(this.authId, {
             userName: this.name
         });
     }
 
-    async saveNewEmail(new_email: string) {
+    async saveNewEmail(new_email: string, supabase: Supabase) {
         this.email = new_email;
-        this.supabase.saveUserData(this.authId, {
+        await supabase.saveUserData(this.authId, {
             userEmail: this.email
         });
     }
