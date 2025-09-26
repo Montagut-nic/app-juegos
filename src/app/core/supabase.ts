@@ -8,6 +8,14 @@ import {
 } from '@supabase/supabase-js';
 import { environment } from '../../environments/env';
 
+export interface ChatMessage {
+  id: number;
+  user_id: string;
+  contenido: string;
+  usuario: string;
+  created_at: string; // ISO
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -59,8 +67,8 @@ export class Supabase {
 
   async isLoggedIn(): Promise<boolean> {
     const session = await this.session;
-  return !!session;
-}
+    return !!session;
+  }
 
   async logInWithPassword(email: string, password: string): Promise<User> {
     const { data, error } = await this._client.auth.signInWithPassword({
@@ -84,7 +92,7 @@ export class Supabase {
   }
 
   async saveUserData(authId: string,
-  patch: { userEmail?: string | null; userName?: string | null; avatar_url?: string | null; userPoints?: number | null; userActive?: boolean | null}): Promise<any | void> {
+    patch: { userEmail?: string | null; userName?: string | null; avatar_url?: string | null; userPoints?: number | null; userActive?: boolean | null }): Promise<any | void> {
     const payload: any = { authId };
     if (patch.userEmail !== undefined) {
       payload.email = patch.userEmail;
@@ -118,7 +126,7 @@ export class Supabase {
     return data;
   }
 
-  async saveFile(avatarFile: File, authID: string){
+  async saveFile(avatarFile: File, authID: string) {
     let ext: string;
     switch (avatarFile.type.toLowerCase()) {
       case 'image/jpeg':
@@ -139,7 +147,6 @@ export class Supabase {
     });
     if (error) throw error;
 
-    
     const { error: updateError } = await this._client
       .from('registros_usuarios')
       .update({ avatarUrl: data.path })
@@ -148,6 +155,66 @@ export class Supabase {
   }
 
   async getAvatarUrl(avatar_url: string) {
-    return  this._client.storage.from('images').getPublicUrl(avatar_url).data.publicUrl;
+    return this._client.storage.from('images').getPublicUrl(avatar_url).data.publicUrl;
+  }
+
+  private _chatChannel: ReturnType<typeof this._client.channel> | null = null;
+
+  /** Trae las N últimas (orden ascendente para listas) */
+  async fetchChat(): Promise<ChatMessage[]> {
+    const { data, error } = await this._client
+      .from('mensajes')
+      .select('*')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    console.log(data);
+    return data as ChatMessage[];
+  }
+
+  async sendChatMessage(contenido: string): Promise<void> {
+    if (contenido.trim().length === 0) {
+      throw new Error('El mensaje está vacío');
+    }
+    const user = this._user$.value;
+    if (!user) throw new Error('No autenticado');
+
+    const name = await this.getUserData(user.id).then(data => data?.name || 'Desconocido').catch(() => 'Desconocido');
+
+    const { error } = await this._client
+      .from('mensajes')
+      .insert({
+        user_id: user.id,
+        usuario: name,
+        contenido: contenido.trim()
+      });
+    if (error) throw error;
+  }
+
+  subscribeChat(onInsert: (msg: ChatMessage) => void) {
+    // Cerrar canal previo si hubiera
+    this.unsubscribeChat();
+
+    this._chatChannel = this._client
+      .channel('realtime:mensajes')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'mensajes' },
+        (payload) => {
+          onInsert(payload.new as ChatMessage);
+        }
+      )
+      .subscribe((status) => {
+        // loggear status
+        console.log('chat channel status', status);
+      });
+
+    return () => this.unsubscribeChat();
+  }
+
+  unsubscribeChat() {
+    if (this._chatChannel) {
+      this._client.removeChannel(this._chatChannel);
+      this._chatChannel = null;
+    }
   }
 }

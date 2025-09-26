@@ -29,17 +29,12 @@ export const routes: Routes = [
     },
     {
         path:"juegos",
-        children:[
-            {
-                path:"juego1", pathMatch: 'full', redirectTo:"/home"
-            },
-            {
-                path:"juego2", pathMatch: 'full', redirectTo:"/home"
-            },
-            {
-                path:"juego3", pathMatch: 'full', redirectTo:"/home"
-            }
-        ]
+        pathMatch:"full",
+        redirectTo:"/home"
+    },
+    {
+        path:"juegos",
+       loadChildren: () => import('./componentes/juego/juego.routes').then(m => m.JUEGO_ROUTES)
     },
     {
         path:"quien-soy",

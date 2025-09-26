@@ -1,0 +1,27 @@
+<button class="chat-toggle" *ngIf="isLoggedIn" (click)="toggle()">Chat</button>
+<section class="chat-window" *ngIf="isLoggedIn && open()">
+    <header class="chat-header">
+        <strong>Chat Global</strong>
+        <button class="min" (click)="toggle()">—</button>
+    </header>
+
+    <div class="chat-body" #scrollBox>
+        @for(m of messages(); track $index) {
+        <div class="line">
+            <span class="meta">
+                {{ m.created_at | date:'d-M-y HH:mm' }} - {{ m.usuario }}:
+            </span>
+            <span class="text">{{ m.contenido }}</span>
+        </div>
+        } @empty {
+        <div class="line">No hay mensajes.</div>
+        }
+    </div>
+
+    <footer class="chat-input">
+        <textarea [disabled]="sending()" placeholder="Escribe un mensaje…" [value]="text()"
+            (input)="text.set(($any($event.target)).value)" (keydown)="onKeydown($event)" maxlength="500"
+            rows="2"></textarea>
+        <button class="send" (click)="send()" [disabled]="sending() || !text().trim()">Enviar</button>
+    </footer>
+</section>

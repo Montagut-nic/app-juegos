@@ -20,4 +20,16 @@
   cursor: default;
 }
 
+.brand-group{
+  display:flex;
+  align-items:center;
+  gap:10px; /* separación logo ↔ nombre */
+}
+
+.brand-logo{
+  object-fit:contain;
+  height:50px;
+  display:block; /* evita espacios raros en línea */
+}
+
 .pill:active{ transform: translateY(1px); box-shadow: inset 0 -1px 0 rgba(255,255,255,.02); }
