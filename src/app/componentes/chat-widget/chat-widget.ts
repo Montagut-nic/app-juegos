@@ -82,14 +82,14 @@ export class ChatWidget implements OnDestroy {
       }
     try {
       this.sending.set(true);
-      await this.supabase.sendChatMessage(value);
+      await this.supabase.sendChatMessage(value)
       this.text.set('');
-      setTimeout(() => this.scrollToBottom(), 0);
     } catch (error) {
       this.alert.error('Error enviando el mensaje');
       console.error('Error mandando el mensaje:', error);
     } finally {
       this.sending.set(false);
+      setTimeout(() => this.scrollToBottom(), 0);
     }
   }
 
@@ -100,9 +100,14 @@ export class ChatWidget implements OnDestroy {
     }
   }
 
+  private scrollTimeout?: any;
+
   private scrollToBottom() {
-    if (!this.scrollBox) return;
-    const el = this.scrollBox.nativeElement;
-    el.scrollTop = el.scrollHeight;
+    if (!this.scrollBox || !this.scrollBox.nativeElement) return;
+    if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(() => {
+      const el = this.scrollBox.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    }, 50); // Debounce by 50ms
   }
 }

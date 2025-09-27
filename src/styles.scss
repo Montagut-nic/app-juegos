@@ -152,8 +152,9 @@ h1.title {
   border: 1px solid rgba(255, 255, 255, .06);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .35);
   margin-bottom: 16px;
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* placeholders de ejemplo (cambiar por imágenes) */
@@ -167,6 +168,10 @@ h1.title {
 
 .thumb.blackjack {
   background-image: radial-gradient(60% 60% at 55% 40%, #0e3a30, #051e19 70%);
+}
+
+.thumb.trivia {
+  background-image: radial-gradient(60% 60% at 55% 40%, #223a0e, #0d1e05 70%);
 }
 
 .card h3 {
@@ -203,7 +208,7 @@ h1.title {
     center / contain no-repeat;
   background-image: image-set(url('assets/joker-404_lossless.webp') type('image/webp'));
   border-radius: 8px;
-  max-width: webkit-fill-available;
+  max-width: -webkit-fill-available;
 }
 
 .mi-foto-img {
@@ -215,6 +220,11 @@ h1.title {
   border: 3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   max-width: -webkit-fill-available;
+}
+
+.dados-img {
+  @extend .error-404-img;
+  background-image: image-set(url('assets/icono-dados.webp') type('image/webp'));
 }
 
 /* ===== Responsive ===== */
