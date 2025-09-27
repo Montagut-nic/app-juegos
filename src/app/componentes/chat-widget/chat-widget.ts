@@ -84,6 +84,7 @@ export class ChatWidget implements OnDestroy {
       this.sending.set(true);
       await this.supabase.sendChatMessage(value);
       this.text.set('');
+      setTimeout(() => this.scrollToBottom(), 0);
     } catch (error) {
       this.alert.error('Error enviando el mensaje');
       console.error('Error mandando el mensaje:', error);
