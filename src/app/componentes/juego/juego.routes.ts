@@ -2,7 +2,9 @@
 import { Routes } from '@angular/router';
 
 export const JUEGO_ROUTES: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'bienvenido' },
+    {
+        path: '', redirectTo: 'juegos', pathMatch: 'full'
+    },
     {
         path: 'ahorcado',
         loadComponent: () =>
@@ -14,7 +16,7 @@ export const JUEGO_ROUTES: Routes = [
             import('./mayor-menor/mayor-menor.component').then(m => m.MayorMenorComponent),
     },
     {
-        path: 'trivia',
+        path: 'trivia-pokemon',
         loadComponent: () =>
             import('./trivia/trivia.component').then(m => m.TriviaComponent),
     },
@@ -23,5 +25,5 @@ export const JUEGO_ROUTES: Routes = [
         loadComponent: () =>
             import('./veintiuno/veintiuno.component').then(m => m.VeintiunoComponent),
     },
-    { path: '**', redirectTo: 'error404' },
+    { path: '**', redirectTo: '' },
 ];

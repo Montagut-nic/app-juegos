@@ -167,7 +167,6 @@ export class Supabase {
       .select('*')
       .order('created_at', { ascending: true });
     if (error) throw error;
-    console.log(data);
     return data as ChatMessage[];
   }
 

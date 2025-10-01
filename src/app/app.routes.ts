@@ -9,7 +9,7 @@ export const routes: Routes = [
     {
         path:'',
         pathMatch:"full",
-        redirectTo:"/home"
+        redirectTo:"home"
     },
     {
         path:"home",
@@ -29,17 +29,7 @@ export const routes: Routes = [
     },
     {
         path:"juegos",
-        pathMatch:"full",
-        redirectTo:"/home"
-    },
-    {
-        path:"juegos",
        loadChildren: () => import('./componentes/juego/juego.routes').then(m => m.JUEGO_ROUTES)
-    },
-    {
-        path:"quien-soy",
-        component: QuienSoy
-
     },
     {
         path:"error404",

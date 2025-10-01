@@ -45,18 +45,50 @@
             }
         </label>
 
-        <label class="field">
-            <span>Imagen de avatar</span>
-            <input type="file" (change)="onFileChange($event)"
+        <!--
+            <label class="field">
+                <span>Imagen de avatar</span>
+                <input type="file" (change)="onFileChange($event)"
                 accept=".jpg,.jpeg,.png,image/jpeg,image/png" #fileInput />
+                @if(avatarCtrl.touched && avatarCtrl.invalid){
+                @if(avatarCtrl.hasError('required')){ <small class="err">Seleccioná una imagen.</small> }
+                @if(avatarCtrl.hasError('type')){ <small class="err">Formato no permitido. Sólo JPG o PNG.</small> }
+                @if(avatarCtrl.hasError('empty')){ <small class="err">El archivo está vacío.</small> }
+                @if(avatarCtrl.hasError('maxSize')){ <small class="err">El archivo supera los 2MB.</small> }
+                }
+                <button type="button" (click)="clearAvatar(fileInput)">Quitar</button>
+            </label>
+        -->
+
+        <div class="images-block">
+            <div class="images-header">
+                <div>
+                    <h4>Imagen de Avatar</h4>
+                    <small>PNG/JPG/WEBP, máx. 5 MB</small>
+                </div>
+                <button size="small" (click)="fileInput.click()" type="button">
+                    Seleccionar foto
+                </button>
+                <input #fileInput type="file" accept="image/*" hidden (change)="onFileChange($event)" />
+            </div>
+
+            @if (previewImg) {
+            <div class="thumbs">
+                <div class="thumb">
+                    <img [src]="previewImg" alt="preview" />
+                    <button type="button" class="remove" (click)="clearAvatar(fileInput)" aria-label="Quitar">
+                        ×
+                    </button>
+                </div>
+            </div>}
             @if(avatarCtrl.touched && avatarCtrl.invalid){
             @if(avatarCtrl.hasError('required')){ <small class="err">Seleccioná una imagen.</small> }
             @if(avatarCtrl.hasError('type')){ <small class="err">Formato no permitido. Sólo JPG o PNG.</small> }
             @if(avatarCtrl.hasError('empty')){ <small class="err">El archivo está vacío.</small> }
-            @if(avatarCtrl.hasError('maxSize')){ <small class="err">El archivo supera los 2MB.</small> }
+            @if(avatarCtrl.hasError('maxSize')){ <small class="err">El archivo supera los 5MB máximos
+                permitidos.</small> }
             }
-            <button type="button" (click)="clearAvatar(fileInput)">Quitar</button>
-        </label>
+        </div>
 
         <button type="submit" [disabled]="loading() || form.invalid">
             {{ loading() ? 'Creando cuenta…' : 'Crear cuenta' }}

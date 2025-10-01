@@ -1,4 +1,4 @@
-.chat-toggle{
+.chat-toggle {
   position: fixed;
   right: 18px;
   bottom: 18px;
@@ -11,7 +11,7 @@
   cursor: pointer;
 }
 
-.chat-window{
+.chat-window {
   position: fixed;
   right: 18px;
   bottom: 70px;
@@ -25,52 +25,111 @@
 
   background: linear-gradient(180deg, #1b2227, #1a2127);
   border: 1px solid #2b3237;
-  box-shadow: 0 8px 28px rgba(0,0,0,.35);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
 }
 
-.chat-header{
-  display:flex; align-items:center; justify-content:space-between;
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 8px 10px;
   background: #212a32;
   color: var(--ink, #eae3c8);
   border-bottom: 1px solid #2b3237;
-  .min{ background: transparent; color: inherit; border: 0; cursor: pointer; }
+
+  .min {
+    background: transparent;
+    color: inherit;
+    border: 0;
+    cursor: pointer;
+  }
 }
 
-.chat-body{
+.chat-body {
   overflow: auto;
   padding: 8px 10px;
   color: var(--text, #e8e6df);
-}
-.line{
-  padding: 4px 0;
-}
-.meta{
-  color: #c8c3ae;
-  margin-right: 6px;
-  white-space: nowrap;
-}
-.text{
-  white-space: pre-wrap; word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.chat-input{
-  display: grid; grid-template-columns: 1fr auto; gap: 8px;
-  padding: 8px 10px; border-top: 1px solid #2b3237;
-  textarea{
-    background: #111a16; color: #eae3c8;
-    border: 1px solid #26433a; border-radius: 8px; padding: 8px;
-    resize: none; outline: none;
+.line {
+  padding: 4px 0;
+  display: flex;
+}
+
+.line.ajeno {
+  justify-content: flex-start;
+}
+
+.line.propio {
+  justify-content: flex-end;
+}
+
+.burbuja {
+  max-width: 80%;
+  padding: 8px 10px;
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+  word-break: break-word;
+}
+
+.line.ajeno .burbuja {
+  background: #212a32;                
+  color: #e8e6df;
+  border: 1px solid #2b3237;
+  border-top-left-radius: 4px;
+}
+
+.line.propio .burbuja {
+  background: #1a3a33;                 /* pill active */
+  color: #eae3c8;                       /* ink */
+  border: 1px solid #1d3b34;            /* pill border */
+  border-top-right-radius: 4px;
+}
+
+.meta{
+  font-size: 10px;
+  opacity: .85;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  display: flex; flex-direction: row; gap: 4px; align-items: baseline;
+}
+
+.text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 8px 10px;
+  border-top: 1px solid #2b3237;
+
+  textarea {
+    background: #111a16;
+    color: #eae3c8;
+    border: 1px solid #26433a;
+    border-radius: 8px;
+    padding: 8px;
+    resize: none;
+    outline: none;
   }
-  .send{
-    padding: 8px 12px; border-radius: 8px;
+
+  .send {
+    padding: 8px 12px;
+    border-radius: 8px;
     border: 1px solid var(--pill-border, #1d3b34);
     background: var(--pill, #102a25);
     color: var(--muted, #c8c3ae);
     cursor: pointer;
   }
 }
-.chat-input textarea:focus{
+
+.chat-input textarea:focus {
   border-color: var(--pill-active, #1a3a33);
-  box-shadow: 0 0 0 2px rgba(26,58,51,.3);
+  box-shadow: 0 0 0 2px rgba(26, 58, 51, .3);
 }

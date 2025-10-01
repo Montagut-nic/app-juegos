@@ -23,7 +23,7 @@ const matchPasswordValidator: ValidatorFn = (group: AbstractControl): Validation
   return pw !== pw2 ? { mismatch: true } : null;
 };
 
-const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 
 const imageFileValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const file = control.value as File | null | undefined;
@@ -59,6 +59,11 @@ export class RegistroComponent {
   errorMsg = signal<string | null>(null)
   capsOn = signal(false);
 
+  fileImg: File | null = null;
+  previewImg: string | null = null;
+  imagesError = '';
+
+
   constructor(private supabase: Supabase, private router: Router, private fb: FormBuilder) {
 
     this.form = this.fb.group({
@@ -87,23 +92,36 @@ export class RegistroComponent {
   }
 
   onFileChange(e: Event) {
+    this.imagesError = '';
     const input = e.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
+    const file = input.files?.[0] || null;
     this.avatarCtrl.markAsTouched();
     this.avatarCtrl.markAsDirty();
 
     if (!file) {
       this.avatarCtrl.setValue(null);
       this.avatarCtrl.updateValueAndValidity();
+      this.setPreviewImage(null);
       return;
     }
     this.avatarCtrl.setValue(file);
     this.avatarCtrl.updateValueAndValidity();
+    this.setPreviewImage(file);
   }
 
   clearAvatar(input: HTMLInputElement) {
     input.value = '';
     this.avatarCtrl.reset(null);
+    this.setPreviewImage(null);
+  }
+
+  setPreviewImage(f: File | null, err: string = '') {
+    if (this.previewImg) {
+      URL.revokeObjectURL(this.previewImg);
+    }
+    this.fileImg = f;
+    this.imagesError = err;
+    this.previewImg = f ? URL.createObjectURL(f) : null;
   }
 
 

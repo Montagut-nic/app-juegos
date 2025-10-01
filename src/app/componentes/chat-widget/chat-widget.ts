@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Supabase, ChatMessage } from '../../core/supabase';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Alert } from '../../core/alert';
 
 
@@ -77,9 +76,9 @@ export class ChatWidget implements OnDestroy {
     const value = this.text().trim();
     if (!value || this.sending()) return;
     if (value.length > 256) {
-        this.alert.error('Superaste el limite de 256 caracteres por mensaje.');
-        return;
-      }
+      this.alert.error('Superaste el limite de 256 caracteres por mensaje.');
+      return;
+    }
     try {
       this.sending.set(true);
       await this.supabase.sendChatMessage(value)
@@ -109,5 +108,11 @@ export class ChatWidget implements OnDestroy {
       const el = this.scrollBox.nativeElement;
       el.scrollTop = el.scrollHeight;
     }, 50); // Debounce by 50ms
+  }
+
+  esPropio(msg: ChatMessage): boolean {
+    const u = this.user();
+    if (!u) return false;
+    return msg.user_id == u.id;
   }
 }
