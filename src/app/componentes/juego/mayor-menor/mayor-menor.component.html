@@ -1,1 +1,66 @@
-<p>mayor-menor works!</p>
+<main class="container">
+  <section class="mm-shell">
+    <header class="mm-header">
+      <div class="card" style="gap: 12px; display:flex; flex-direction: column; align-items: flex-start; width: max-content; height: max-content;">
+        <div class="stats">
+          <div><strong>Pozo:</strong> {{ pozo() }}</div>
+          <div class="rem"><strong>Mazo:</strong> {{ remaining() }}</div>
+        </div>
+        <div class="hint">
+          El orden de las cartas es As < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K
+        </div>
+      </div>
+
+      @if (estado() === 'apuesta') {
+      <div class="card apuesta">
+        <label class="apuesta__field">
+          <span>Apuesta</span>
+          <input type="number" min="0" step="1" [max]="usuario()?.puntos ?? 0" [value]="apuesta()"
+            (input)="onApuestaInput($event)" (keyup)="onKey($event)" />
+            @if(!apuestaValida()){
+            <small class="err">Ingresá una apuesta mayor o igual a 0.</small>
+            }
+        </label>
+
+        <button class="pill" [disabled]="!puedeIniciar() || !apuestaValida()" (click)="iniciar()">
+          Apostar y empezar
+        </button>
+
+        <div class="hint">
+          Si apostás 0 o tenés 0 puntos, el pozo suma de a +1 por acierto.
+        </div>
+      </div>
+      }
+    </header>
+
+    <div class="mesa">
+      <div class="card3d" [class.flip]="flipping()">
+        <!-- Cara frontal: carta actual -->
+        <div class="face front"
+          [style.background]="(frontImage() == '') || (frontImage() == null) ? 'url(https://deckofcardsapi.com/static/img/back.png) no-repeat center' : 'none'">
+          <img *ngIf="frontImage()" [src]="frontImage()" alt="Carta actual" />
+        </div>
+        <!-- Cara trasera: próxima carta (se revela al voltear) -->
+        <div class="face back">
+          <img *ngIf="backImage()" [src]="backImage()" alt="Siguiente carta" />
+        </div>
+      </div>
+    </div>
+
+    @if (estado() !== 'apuesta') {
+    <footer class="mm-controls">
+      <button class="pill" (click)="decidir('menor')"
+        [disabled]="bloqueado() == true || estado() !== 'jugando'">Menor</button>
+      <button class="pill" (click)="retirarse()" [disabled]="bloqueado() || pozo() === 0">Retirarse</button>
+      <button class="pill" (click)="decidir('mayor')"
+        [disabled]="bloqueado() == true || estado() !== 'jugando'">Mayor</button>
+    </footer>
+    }
+
+    @if (estado() === 'fin') {
+    <div class="mm-end">
+      <button class="pill" (click)="nuevaRonda()">Nueva ronda</button>
+    </div>
+    }
+  </section>
+</main>

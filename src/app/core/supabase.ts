@@ -120,6 +120,23 @@ export class Supabase {
     return data;
   }
 
+  async setPuntos(authId: string, puntos: number) {
+    const { data, error } = await this._client
+      .from('registros_usuarios')
+      .update({ puntos })
+      .eq('authId', authId)
+      .select('puntos')
+      .single();
+    if (error) throw error;
+    return data.puntos as number;
+  }
+
+  async getPuntos(authId: string): Promise<number> {
+    const data = await this.getUserData(authId);
+    return data?.puntos || 0;
+  }
+
+
   async getUserData(authId: string): Promise<any | null> {
     const { data, error } = await this._client.from('registros_usuarios').select('*').eq('authId', authId).single();
     if (error) throw error;

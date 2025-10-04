@@ -1,0 +1,70 @@
+.poke-shell{
+  display:grid; gap:16px; color:var(--text,#e8e6df); margin-top:12px;
+}
+
+.stage{
+  display:grid; place-items:center;
+}
+
+.card{
+  width:min(520px, 94vw);
+  border:1px solid var(--card-border,#2b3237);
+  background:linear-gradient(180deg, var(--card,#1b2227), var(--card-alt-2,#1a2127));
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 8px 28px rgba(0,0,0,.35);
+  display:grid; gap:14px;
+}
+
+.img-wrap{
+  width:100%;
+  border:1px solid #26433a; border-radius:12px; overflow:hidden;
+  background:#111a16; display:grid; place-items:center;
+
+  &.silhouette img{
+    filter: brightness(0) saturate(100%) contrast(100%); /* silueta negra */
+  }
+
+  img{ height:100%; object-fit:contain; max-width: max-; }
+}
+
+.question{
+  font-weight:700; color:var(--ink,#eae3c8);
+  text-align:center; font-size:18px;
+}
+
+.options{
+  display:grid; gap:10px;
+  grid-template-columns: repeat(2, minmax(160px,1fr));
+}
+
+.pill{
+  appearance:none;
+  border:1px solid var(--pill-border,#1d3b34);
+  background:var(--pill,#102a25);
+  color:var(--muted,#c8c3ae);
+  border-radius:12px;
+  padding:10px 16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:filter .15s ease, transform .04s ease, background .2s ease, border-color .2s ease;
+  &:hover{ filter:brightness(1.08); }
+  &:disabled{ opacity:.7; cursor:default; display: none}
+}
+
+.opt.correct{
+  background:#1a3a33; color:#eae3c8; border-color:#1d3b34;
+}
+.opt.wrong{
+  background:#5a1c1c; color:#ffe2e2; border-color:#7a2a2a;
+}
+
+.controls{ display:grid; place-items:center; }
+
+.spinner{
+  width:36px; height:36px; border-radius:50%;
+  border:3px solid rgba(255,255,255,.22);
+  border-top-color: rgba(255,255,255,.8);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }

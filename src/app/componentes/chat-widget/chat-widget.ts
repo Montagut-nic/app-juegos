@@ -36,7 +36,7 @@ export class ChatWidget implements OnDestroy {
       else this.teardownChat();   // me deslogueé → limpio
     });
 
-    // Si ya estoy logueado al montar, inicializo de inmediato (initChat es idempotente)
+    // Si ya estoy logueado, inicializo
     if (this.isLoggedIn) {
       this.initChat();
     }

@@ -252,6 +252,9 @@ h1.title {
 
 .snack-base {
   font-weight: 600;
+  background: var(--pill, #2e3f3c);
+  color: var(--ink, #eae3c8);
+  border: 1px solid var(--pill-border, #344440);
   letter-spacing: .2px;
   border-radius: 10px !important;
 }

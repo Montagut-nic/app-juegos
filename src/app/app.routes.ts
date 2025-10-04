@@ -4,40 +4,47 @@ import { BienvenidoComponent } from './componentes/bienvenido/bienvenido.compone
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { Error404 } from './componentes/error-404/error-404';
 import { QuienSoy } from './componentes/quien-soy/quien-soy';
+import { authMatchGuard } from './guards/auth-match-guard';
+import { guestGuard, guestMatchGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
     {
-        path:'',
-        pathMatch:"full",
-        redirectTo:"home"
+        path: '',
+        pathMatch: "full",
+        redirectTo: "home"
     },
     {
-        path:"home",
+        path: "home",
         component: BienvenidoComponent
     },
     {
-        path:"quien-soy",
+        path: "quien-soy",
         component: QuienSoy
     },
     {
-        path:"login",
+        path: "login",
+        canMatch: [guestMatchGuard],
+        canActivate: [guestGuard],
         component: LoginComponent
     },
     {
-        path:"register",
-        component:RegistroComponent
+        path: "register",
+        canMatch: [guestMatchGuard],
+        canActivate: [guestGuard],
+        component: RegistroComponent
     },
     {
-        path:"juegos",
-       loadChildren: () => import('./componentes/juego/juego.routes').then(m => m.JUEGO_ROUTES)
+        path: "juegos",
+        canMatch: [authMatchGuard],
+        loadChildren: () => import('./componentes/juego/juego-module').then(m => m.JuegoModule)
     },
     {
-        path:"error404",
+        path: "error404",
         component: Error404
 
     },
     {
-        path:"**",
-        redirectTo:"error404"
+        path: "**",
+        redirectTo: "error404"
     }
 ];

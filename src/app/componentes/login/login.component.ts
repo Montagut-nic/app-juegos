@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { Usuario } from '../../clases/usuario';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Supabase } from '../../core/supabase';
 
 @Component({
@@ -13,12 +13,19 @@ import { Supabase } from '../../core/supabase';
 })
 
 export class LoginComponent {
-autocompletar() {
-  this.form.setValue({
-    email: 'nicolas@gmail.com',
-    password: 'Trend123!'
-  });
-}
+  autocompletar() {
+    this.form.setValue({
+      email: 'nicolas@gmail.com',
+      password: 'Trend123!'
+    });
+  }
+
+  autocompletar2() {
+    this.form.setValue({
+      email: 'montagut@gmail.com',
+      password: 'Trend123!'
+    });
+  }
 
   form: FormGroup;
   user?: Usuario;
@@ -26,8 +33,8 @@ autocompletar() {
   errorMsg = signal<string | null>(null);
   capsOn = signal(false);
 
-  constructor(private supabase: Supabase, private router: Router, private fb: FormBuilder) {
-    
+  constructor(private supabase: Supabase, private router: Router, private fb: FormBuilder, private route: ActivatedRoute) {
+
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -39,7 +46,7 @@ autocompletar() {
   onPwKey(event: KeyboardEvent) {
     this.capsOn.set(event.getModifierState?.('CapsLock') ?? false);
   }
-  
+
 
   async logOn() {
     if (this.form.invalid || this.loading()) return;
@@ -52,7 +59,8 @@ autocompletar() {
       if (user_data.active) {
         console.log('Login exitoso:', user_data);
         this.user = new Usuario(user_data.authId, user_data.email, user_data.name, user_data.avatarUrl, user_data.puntos, user_data.active, usuario.created_at);
-        this.router.navigate(['/home']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/home';
+        this.router.navigateByUrl(returnUrl, { replaceUrl: true });
       } else {
         this.errorMsg.set('Tu cuenta no está activa. Contacta con un administrador.');
       }

@@ -1,7 +1,10 @@
 <main class="container">
-    <article class="card">
+    <article class="card" style="display: flex; flex-direction: column; gap: 12px;">
         <button class="cta" (click)="autocompletar()">
-        Autocompletar
+        Autocompletar usuario
+      </button>
+      <button class="cta" (click)="autocompletar2()">
+        Autocompletar admin
       </button>
     </article>
     <form class="login-form card" [formGroup]="form" (ngSubmit)="logOn()">

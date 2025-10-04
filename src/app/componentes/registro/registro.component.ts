@@ -152,7 +152,7 @@ export class RegistroComponent {
       // Redirigir a home
       if (await this.supabase.isLoggedIn()) {
         console.log('Usuario registrado y autenticado:', user);
-        await this.router.navigateByUrl('/home');
+        await this.router.navigateByUrl('/home', { replaceUrl: true });
       }
     } catch (err: any) {
       const msg = (err?.message || '').toLowerCase();

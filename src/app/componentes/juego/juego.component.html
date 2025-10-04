@@ -1,2 +1,25 @@
-<div></div>
+<header class="nav-wrap">
+  <nav class="nav games-nav">
+    <div class="left">
+      <span class="brand">Juegos</span>
+      <a class="pill" routerLink="ahorcado" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Ahorcado</a>
+      <a class="pill" routerLink="mayor-menor" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Mayor o Menor</a>
+      <a class="pill" routerLink="trivia-pokemon" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Trivia Pokémon</a>
+      <a class="pill" routerLink="veintiuno" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Veintiuno</a>
+    </div>
+
+    <div class="right">
+      <div class="user">
+        <span class="u-name">{{ userName }}</span>
+        <span class="u-points">Puntos: <strong>{{ puntos }}</strong></span>
+      </div>
+    </div>
+  </nav>
+
+</header>
+<!-- Área del juego (rutas hijas) -->
 <router-outlet></router-outlet>

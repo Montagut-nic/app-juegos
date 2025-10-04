@@ -26,7 +26,6 @@ export class Alert {
   info(message: string, config: MatSnackBarConfig = {}) {
     this.snackBar.open(message, undefined, {
       duration: 5000,
-      panelClass: ['snack-base'],
       ...config
     });
   }

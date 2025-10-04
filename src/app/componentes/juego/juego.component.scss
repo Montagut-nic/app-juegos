@@ -1,0 +1,75 @@
+@media (max-width: 720px){
+  .games-nav{ flex-wrap:wrap; row-gap:10px; }
+  .brand{ flex:1 1 100%; text-align:center; }
+  .pills{ width:100%; justify-content:center; flex-wrap:wrap; }
+}
+
+.games-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    background: linear-gradient(180deg, var(--card, #1b2227), var(--card-alt-2, #1a2127));
+    border: 1px solid var(--card-border, #2b3237);
+    border-radius: 14px;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    .brand {
+        color: var(--ink, #eae3c8);
+        font-weight: 800;
+        margin-right: 6px;
+    }
+}
+
+.right .user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .u-name {
+        color: var(--muted, #c8c3ae);
+    }
+
+    .u-points {
+        background: #102a25;
+        color: #eae3c8;
+        border: 1px solid #1d3b34;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-weight: 700;
+    }
+}
+
+.pill {
+    appearance: none;
+    border: 1px solid var(--pill-border, #1d3b34);
+    background: var(--pill, #102a25);
+    color: var(--muted, #c8c3ae);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    /* para <a> */
+    transition: filter .15s ease, background .2s ease, border-color .2s ease;
+
+    &:hover {
+        filter: brightness(1.08);
+    }
+
+    &.active {
+        background: #1a3a33;
+        color: #eae3c8;
+        border-color: #1d3b34;
+        opacity: .6;
+        cursor: default;
+        filter: none;
+    }
+}
