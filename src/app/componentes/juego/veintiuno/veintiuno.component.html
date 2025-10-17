@@ -1,1 +1,85 @@
-<p>veintiuno works!</p>
+<main class="container">
+    <section class="mm-shell">
+        <header class="mm-header">
+            @if (estado() === 'apuesta') {
+            <div class="card">
+                <div class="stats">
+                    <div><strong>Pozo:</strong> {{ pozo() }}</div>
+                    <div><strong>Racha:</strong> {{ racha() }}</div>
+                </div>
+                <div class="hint">
+                    Lanza los dados. El que quede más cerca de 21 sin pasarse, gana. En caso de empate, gana la banca.</div>
+            </div>
+            <div class="card apuesta">
+                <label class="apuesta__field">
+                    <span>Confirmar apuesta</span>
+                    <input type="number" min="0" step="1" [max]="usuario()?.puntos ?? 0" [value]="apuesta()"
+                        (input)="onApuestaInput($event)" (keyup)="onKey($event)" />
+                    @if(!apuestaValida()){
+                    <small class="err">Ingresá una apuesta mayor o igual a 0.</small>
+                    }
+                </label>
+                <button class="pill" [disabled]="!puedeIniciar() || !apuestaValida()" (click)="confirmarApuesta()">
+                    Apostar y empezar
+                </button>
+
+                <div class="hint">
+                    Si apostás 0 o tenés 0 puntos, el pozo comienza con un valor de 1.
+                </div>
+            </div>}
+            <!-- Tablero -->
+            @if (estado() !== 'apuesta') {
+            <section class="panel tablero">
+                <header class="top">
+                    <div class="card">
+                        <div><strong>Apuesta:</strong> {{ apuesta() }}</div>
+                        <div><strong>Pozo:</strong> {{ pozo() }}</div>
+                    </div>
+                    <div class="marcadores">
+                        <div class="marcador j">
+                            <h3>Jugador</h3>
+                            <div class="total">{{ jugador() }}</div>
+                        </div>
+                        <div class="marcador s">
+                            <h3>Banca</h3>
+                            <div class="total">{{ sistema() }}</div>
+                        </div>
+                    </div>
+                </header>
+                <!-- Zona central: dados con animación -->
+                <div class="dice-arena">
+                    @if (showDie1()) {
+                    <img class="die left" [class.rolling]="die1Rolling()" [src]="die1Src()" alt="dado 1">
+                    }
+                    @if (showDie2()) {
+                    <img class="die right" [class.rolling]="die2Rolling()" [src]="die2Src()" alt="dado 2">
+                    }
+                </div>
+
+                <!-- Controles -->
+                @if (estado() === 'jugando') {
+                <footer class="actions">
+                    <button class="pill" (click)="tirarJugador()" [disabled]="locked()">Lanzar (2 dados)</button>
+                    <button class="pill" (click)="plantarse()" [disabled]="!puedeQuedarse()">Quedarse</button>
+                </footer>
+                }
+                @if (estado() === 'sistema') {
+                <footer class="actions">
+                    <button class="pill" disabled>Turno de la banca…</button>
+                </footer>
+                }
+                @if (estado() === 'fin') {
+                <footer class="actions end">
+                    @if (resultado() === 'gana') {
+                    <button class="pill ok" (click)="cobrarPozo()">Retirarse y cobrar {{ pozo() }}</button>
+                    <button class="pill" (click)="duplicarYSeguir()">Doblar pozo y seguir ({{ pozo() * 2 }})</button>
+                    } @else {
+                    <div class="msg ko"><strong>Perdiste la ronda y el pozo...</strong></div>
+                    <button class="pill" (click)="nuevaApuesta()">Nueva apuesta</button>
+                    }
+                </footer>
+                }
+            </section>}
+        </header>
+    </section>
+</main>
