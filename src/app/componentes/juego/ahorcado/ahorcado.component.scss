@@ -1,0 +1,99 @@
+.mm-shell {
+    display: grid;
+    gap: 14px;
+    color: var(--text, #e8e6df);
+}
+
+.mm-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+
+    .stats {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .rem {
+            opacity: .8;
+        }
+    }
+}
+
+/* Contenedor para apilar imágenes */
+.hm-stage {
+    position: relative;
+    width: min(50vw, 320px);
+    aspect-ratio: 1 / 1;
+    border-radius:90px;
+    background-color: #c8c3ae;
+}
+
+.hm-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: auto;
+    border-radius: 8px;
+}
+
+/* Animación de revelado */
+@keyframes ahorcado-wipe {
+    from {
+        clip-path: inset(0 100% 0 0);
+        opacity: 1;
+    }
+
+    to {
+        clip-path: inset(0 0% 0 0);
+        opacity: 1;
+    }
+}
+
+.hm-img.overlay.reveal {
+    animation: ahorcado-wipe .45s ease-out forwards;
+}
+
+.card {
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: max-content;
+    height: max-content;
+}
+
+.hint {
+    font-size: 12.5px;
+    opacity: .85;
+}
+
+.pill {
+    appearance: none;
+    border: 1px solid var(--pill-border, #1d3b34);
+    background: var(--pill, #102a25);
+    color: var(--muted, #c8c3ae);
+    border-radius: 12px;
+    justify-self: start;
+    width: max-content;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter .15s ease;
+
+    &:hover {
+        filter: brightness(1.08);
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: default;
+        filter: none;
+    }
+}

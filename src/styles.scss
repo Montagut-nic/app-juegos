@@ -261,8 +261,8 @@ h1.title {
 
 .snack-success {
   @extend .snack-base;
-  background: var(--pill, #102a25) !important;
-  color: var(--ink, #eae3c8) !important;
+  background: var(--pill, #102a25) ;
+  color: var(--ink, #eae3c8) ;
   border: 1px solid var(--pill-border, #1d3b34);
 }
 

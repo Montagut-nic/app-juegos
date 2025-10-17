@@ -168,6 +168,12 @@ export class MayorMenorComponent {
     this.pozo.set(0);
     this.estado.set('jugando');
     await this.drawPrimera();
+
+    // Flip
+    this.flipping.set(true);
+
+    //Cuando termina la transformación, consolidamos estado
+    setTimeout(() => this.onFlipEnd(), 500); // dura 500ms en el CSS
     this.bloqueado.set(false);
   }
 
@@ -198,7 +204,7 @@ export class MayorMenorComponent {
     this.flipping.set(true);
 
     // 3) Cuando termina la transformación, consolidamos estado
-    setTimeout(() => this.onFlipEnd(), 600); // dura 500ms en el CSS
+    setTimeout(() => this.onFlipEnd(), 500); // dura 500ms en el CSS
   }
 
   // Fin del flip → consolidar carta y evaluar
