@@ -10,30 +10,35 @@
                     Tenés 6 vidas para adivinar la palabra. Cada error te quita una vida.
                 </div>
             </div>
-        </header>
-        @if (estado() !== 'jugando'){
-        <footer class="hm-actions">
-            <button class="pill" (click)="nuevaPartida()">Nueva partida</button>
-            @if (estado() === 'perdiste') {
-            <div class="hm-reveal">La palabra era: <strong>{{ palabra() }}</strong></div>
+            @if (estado() !== 'jugando'){
+            <div class="hm-actions">
+                <button class="pill" (click)="nuevaPartida()">Nueva partida</button>
+                @if (estado() === 'perdiste') {
+                <div class="hm-reveal">La palabra era: <strong>{{ palabra() }}</strong></div>
+                }
+            </div>
             }
-        </footer>
-        }
+        </header>
+
         @if (estado() !== 'esperando') {
-        <!-- Contenedor de doble capa con animación -->
-        <div class="hm-stage">
-            <img class="hm-img base" [src]="imgPrev()" alt="estado ahorcado base">
-            <img class="hm-img overlay" [src]="imgCurr()" alt="estado ahorcado animado" [class.reveal]="animando()"
-                (animationend)="onRevealDone()">
-        </div>
-        <div class="hm-word" aria-label="palabra a adivinar">
-            {{ palabraOculta() }}
-        </div>
-        <div class="hm-letters">
-            <button class="pill" *ngFor="let letra of letrasDisponibles" (click)="jugarLetra(letra)"
-                [disabled]="estado() !== 'jugando' || letrasAdivinadas().has(letra) || letrasErradas().has(letra)">
-                {{ letra }}
-            </button>
+        <div class="ah-content">
+            <!-- Contenedor de doble capa con animación -->
+            <div class="hm-stage">
+                <img class="hm-img base" [src]="imgPrev()" alt="estado ahorcado base">
+                <img class="hm-img overlay" [src]="imgCurr()" alt="estado ahorcado animado" [class.reveal]="animando()"
+                    (animationend)="onRevealDone()">
+            </div>
+            <div class="ah-guess">
+                <div class="hm-word" aria-label="palabra a adivinar">
+                    {{ palabraOculta() }}
+                </div>
+                <div class="hm-letters">
+                    <button class="pill" *ngFor="let letra of letrasDisponibles" (click)="jugarLetra(letra)"
+                        [disabled]="estado() !== 'jugando' || letrasAdivinadas().has(letra) || letrasErradas().has(letra)" [class.adivinada]="letrasAdivinadas().has(letra)" [class.errada]="letrasErradas().has(letra) || estado() === 'perdiste'">
+                        {{ letra }}
+                    </button>
+                </div>
+            </div>
         </div>
         }
     </section>
