@@ -1,0 +1,129 @@
+<main class="container">
+    <h1>Encuesta de satisfacción</h1>
+    <p class="subtitulo">¡Gracias por dejar tu opinión!</p>
+    <form class="encuesta-form card" [formGroup]="form" (ngSubmit)="submit()">
+
+        <label class="field">
+            <span>Nombre</span>
+            <input type="text" [disabled]="loading()" formControlName="nombre" placeholder="Tu nombre" />
+            @if(nombreCtrl.touched && nombreCtrl.invalid){
+            <small class="err">Ingresá tu nombre. Mínimo 2 caracteres. Máximo 50 caracteres.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Apellido</span>
+            <input type="text" [disabled]="loading()" formControlName="apellido" placeholder="Tu apellido" />
+            @if(apellidoCtrl.touched && apellidoCtrl.invalid){
+            <small class="err">Ingresá tu apellido. Mínimo 2 caracteres. Máximo 50 caracteres.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Edad</span>
+            <input type="text" inputmode="numeric" [disabled]="loading()" formControlName="edad"
+                placeholder="Debes ser mayor de 18 años para completar esta encuesta" />
+            @if(edadCtrl.touched && edadCtrl.invalid){
+            <small class="err">Ingresá tu edad. Debes ser mayor de 18 años y menor de 100.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span>Teléfono</span>
+            <input type="tel" [disabled]="loading()" formControlName="telefono"
+                placeholder="Tu teléfono, sólo números" />
+            @if(teleCtrl.touched && teleCtrl.invalid){
+            <small class="err">Ingresá tu teléfono. Debe tener 10 dígitos.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span><strong>¿Cuántas estrellas le darías al sitio?</strong></span>
+
+            <div class="stars" aria-hidden="true">
+                <span *ngFor="let s of stars" class="star" [class.on]="form.value.rating! >= s">★</span>
+                <span class="value">{{ form.value.rating }}/5</span>
+            </div>
+
+            <input class="range" [disabled]="loading()" id="rating" type="range" formControlName="rating" min="1"
+                max="5" step="1" list="ticks" aria-label="Calificación del sitio de 1 a 5" />
+
+            <datalist id="ticks">
+                <option *ngFor="let s of stars" [value]="s"></option>
+            </datalist>
+
+            @if((ratingCtrl.touched && ratingCtrl.invalid) || ratingCtrl.touched === false){
+            <small class="err">Ingresá una calificación válida entre 1 y 5.</small>
+            }
+        </label>
+
+        <label class="field">
+            <span><strong>De más a menos, ordena tus juegos favoritos</strong></span>
+            <div class="table-wrap">
+                <table class="rank-table">
+                    <thead>
+                        <tr>
+                            <th>Juego</th>
+                            <th *ngFor="let _ of [].constructor(totalJuegos); let i = index">{{ i + 1 }}°</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of juegos">
+                            <td class="juego">{{ j.nombre }}</td>
+                            <td class="cell" *ngFor="let _ of [].constructor(totalJuegos); let i = index">
+                                <label class="radio">
+                                    <input type="radio" [name]="'rank-'+j.id" [checked]="ranks[j.id] === (i+1)"
+                                        (change)="setRank(j.id, i+1)">
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            @if(rankingCompleto === false){
+            <small class="err">Completá la puntuación de los juegos.</small>
+            }
+
+        </label>
+
+        <label class="field">
+            <span><strong>¿Qué juego te gustaría que agregue a la página?</strong></span>
+            <select [disabled]="loading()" formControlName="juegoNuevo" id="juegoNuevo" name="juegoNuevo">
+                <option value="" disabled selected>Seleccioná una opción</option>
+                <option *ngFor="let j of juegosNuevos" [value]="j.id">{{ j.nombre }}</option>
+            </select>
+            @if(juegoNuevoCtrl.touched && juegoNuevoCtrl.invalid){
+            <small class="err">Seleccioná una opción.</small>
+            }
+        </label>
+
+        <label class="field inline">
+            <span><strong>¿Recomendarías este sitio a tus amigos?</strong></span>
+            <input [disabled]="loading()" type="checkbox" formControlName="recomienda" id="recomienda"
+                name="recomienda">
+            @if(recomiendaCtrl.value === true){
+            <small class="err coment">¡Gracias por recomendar!</small>
+            }
+        </label>
+
+        <label class="field coment-input">
+            <span><strong>Dejanos un comentario</strong></span>
+            <textarea [disabled]="loading()" placeholder="Escribe un mensaje…" formControlName="comentarios"
+                [value]="text()" (input)="text.set(($any($event.target)).value)" maxlength="250" rows="4"></textarea>
+            @if(comentariosCtrl.touched && (comentariosCtrl.invalid || text().trim().length === 0)){
+            <small class="err">Ingresá un comentario. Máximo 250 caracteres.</small>
+            }
+        </label>
+
+        @if(form.invalid || rankingCompleto === false){
+        <small class="err">Completá el formulario antes de continuar.</small>
+        }
+        @if(errorMsg()){
+        <p class="err global">{{ errorMsg() }}</p>
+        }
+        <button id="submit" type="submit" [disabled]="loading() || form.invalid || rankingCompleto === false">
+            {{ loading() ? 'Enviando encuesta...' : 'Enviar' }}
+        </button>
+    </form>
+</main>

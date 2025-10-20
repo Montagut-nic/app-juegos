@@ -21,7 +21,7 @@ export class MayorMenorComponent {
     const n = ($event.target as HTMLInputElement).valueAsNumber;
     if (n < 0 || !Number.isFinite(n)) {
       this.apuestaValida.set(false);
-    }else {
+    } else {
       this.apuestaValida.set(true);
     }
   }

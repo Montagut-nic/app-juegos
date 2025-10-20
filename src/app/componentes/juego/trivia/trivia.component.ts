@@ -79,7 +79,7 @@ export class TriviaComponent implements OnInit {
       this.options = all;
     } catch (e) {
       console.error(e);
-      this.alert.error('No se pudo cargar el Pokémon. Probá de nuevo.',{verticalPosition: 'top'});
+      this.alert.error('No se pudo cargar el Pokémon. Probá de nuevo.', { verticalPosition: 'top' });
     } finally {
       this.loading = false;
     }
@@ -93,12 +93,12 @@ export class TriviaComponent implements OnInit {
     if (correct) {
       try {
         await this.supa.setPuntos(this.authId!, this.puntos + 1);
-        this.alert.success('¡Correcto! +1 punto',{verticalPosition: 'top'});
+        this.alert.success('¡Correcto! +1 punto', { verticalPosition: 'top' });
       } catch (e) {
-        this.alert.error('Adivinaste, pero ocurrió un error al cargar los puntos.',{verticalPosition: 'top'});
+        this.alert.error('Adivinaste, pero ocurrió un error al cargar los puntos.', { verticalPosition: 'top' });
       }
     } else {
-      this.alert.error('¡Incorrecto! La respuesta correcta era ' + this.pokemon!.name, {verticalPosition: 'top'});
+      this.alert.error('¡Incorrecto! La respuesta correcta era ' + this.pokemon!.name, { verticalPosition: 'top' });
     }
   }
 
@@ -108,7 +108,7 @@ export class TriviaComponent implements OnInit {
     return Math.floor(Math.random() * 1025) + 1;
   }
 
-  private async fetchPokemon(id: number): Promise<PokemonBasic>  {
+  private async fetchPokemon(id: number): Promise<PokemonBasic> {
     try {
       const data: any = await firstValueFrom(this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`));
       const image = data?.sprites?.other?.['official-artwork']?.front_default
@@ -123,10 +123,10 @@ export class TriviaComponent implements OnInit {
       console.error('No se pudo cargar el Pokémon. ' + e);
       throw e;
     }
-    
+
   }
 
-   private capitalizarPalabras(texto: string): string {
+  private capitalizarPalabras(texto: string): string {
     return texto.replace(/\b\w+\b/g, (match) => match.charAt(0).toUpperCase() + match.slice(1).toLowerCase());
   }
 

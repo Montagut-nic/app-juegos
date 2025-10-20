@@ -233,4 +233,36 @@ export class Supabase {
       this._chatChannel = null;
     }
   }
+
+  async sendEncuesta(authID: string, nom: string, ape: string, edad: number, tel: string, rating: number, r_ahor: number, r_triv: number, r_mayMen: number, r_veinti: number, jNuevo: string, recom: boolean, coment: string): Promise<any | void> {
+    const { data, error } = await this._client
+      .from('encuesta')
+      .insert({
+        user_id: authID,
+        nombre: nom,
+        apellido: ape,
+        edad,
+        tel,
+        puntaje_sitio: rating,
+        clas_ahorcado: r_ahor,
+        clas_maymen: r_mayMen,
+        clas_trivia: r_triv,
+        clas_veinti: r_veinti,
+        juegoNuevo: jNuevo,
+        recomienda: recom,
+        comentarios: coment
+      });
+    if (error) throw error;
+    return data;
+  }
+
+  async encuestaYaCompletada(userId: string): Promise<boolean> {
+    const { count, error } = await this._client
+      .from('encuesta')
+      .select('user_id', { count: 'exact', head: true }) // head: true => no trae filas
+      .eq('user_id', userId);
+
+    if (error) throw error;
+    return (count ?? 0) > 0;
+  }
 }

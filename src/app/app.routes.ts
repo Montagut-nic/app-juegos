@@ -6,6 +6,8 @@ import { Error404 } from './componentes/error-404/error-404';
 import { QuienSoy } from './componentes/quien-soy/quien-soy';
 import { authMatchGuard } from './guards/auth-match-guard';
 import { guestGuard, guestMatchGuard } from './guards/guest-guard';
+import { Ranking } from  './componentes/ranking/ranking';
+import { Encuesta } from  './componentes/encuesta/encuesta';
 
 export const routes: Routes = [
     {
@@ -37,6 +39,15 @@ export const routes: Routes = [
         path: "juegos",
         canMatch: [authMatchGuard],
         loadChildren: () => import('./componentes/juego/juego-module').then(m => m.JuegoModule)
+    },
+    {
+        path: "ranking",
+        component: Ranking
+    },
+    {
+        path: "encuesta",
+        canMatch: [authMatchGuard],
+        component: Encuesta
     },
     {
         path: "error404",

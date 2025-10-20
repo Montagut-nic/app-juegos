@@ -1,0 +1,225 @@
+.encuesta-form {
+  width: min(480px, 92vw);
+  margin: 24px auto;
+  display: grid;
+  gap: 14px;
+  color: var(--text, #e8e6df);
+}
+
+.subtitulo {
+  margin-bottom: 2rem;
+  color: #a08a11;
+  font-weight: bold;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.star {
+  font-size: 24px;
+  color: #888;
+  transition: color .12s ease, transform .08s ease;
+}
+
+.star.on {
+  color: #ffd76a;
+}
+
+.value {
+  opacity: .8;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  border-bottom: 2px solid #2b3237;
+  padding-bottom: 16px;
+}
+
+.field.inline {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input {
+  background: #111a16;
+  color: #eae3c8;
+  border: 1px solid #26433a;
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+
+  &:focus {
+    border-color: #3a6b5a;
+    box-shadow: 0 0 0 3px rgba(58, 107, 90, .25);
+  }
+
+}
+
+input.range {
+  padding: 0px;
+}
+
+.field.coment-input {
+  display: grid;
+  gap: 8px;
+
+  textarea {
+    background: #111a16;
+    color: #eae3c8;
+    border: 1px solid #26433a;
+    border-radius: 8px;
+    padding: 8px;
+    resize: vertical;
+    outline: none;
+    min-height: 90px;
+  }
+}
+
+.field.coment-input textarea:focus {
+  border-color: var(--pill-active, #1a3a33);
+  box-shadow: 0 0 0 2px rgba(26, 58, 51, .3);
+}
+
+button {
+  appearance: none;
+  border: 1px solid var(--pill-border, #1d3b34);
+  background: var(--pill, #102a25);
+  color: var(--muted, #c8c3ae);
+  border-radius: 12px;
+  padding: 10px 18px;
+  font: 600 14.5px/1.1 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+  letter-spacing: .3px;
+  box-shadow: inset 0 -2px 0 rgba(255, 255, 255, .03);
+  cursor: pointer;
+  transition: filter .15s ease;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+
+  &:disabled {
+    opacity: .6;
+    cursor: default;
+    filter: none;
+  }
+}
+
+.err {
+  color: #ffb3b3;
+  font-size: 12.5px;
+  margin-top: -2px;
+}
+
+.err.global {
+  margin-top: 8px;
+}
+
+.err.coment {
+  color: #c0ffb3;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.rank-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.rank-table th,
+.rank-table td {
+  padding: 8px 6px;
+}
+
+.rank-table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.rank-table td {
+  border-bottom: 1px dashed rgba(255, 255, 255, .08);
+}
+
+.rank-table .juego {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio span {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, .4);
+  display: inline-block;
+  transition: all .12s ease;
+}
+
+.radio input:checked+span {
+  background: #77e1a8;
+  border-color: #77e1a8;
+  box-shadow: 0 0 0 2px rgba(119, 225, 168, .25);
+}
+
+select {
+  width: 100%;
+  color: #ffffff;
+  background: rgba(0,0,0,.30);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 10px;
+  padding: 10px 42px 10px 12px; /* espacio a la derecha para la flecha */
+  line-height: 1.2;
+
+  /* quitar estilos nativos */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* flecha (SVG embebido) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .2s ease;
+}
+select:hover {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.22);
+}
+select:focus {
+  outline: none;
+  border-color: rgba(119,225,168,.65);
+  box-shadow: 0 0 0 2px rgba(119,225,168,.25);
+  option{
+    color: #000000;
+  }
+}
+select:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+select option[disabled][selected] {
+  color: rgb(0, 0, 0);
+}

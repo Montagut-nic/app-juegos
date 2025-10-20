@@ -261,8 +261,8 @@ h1.title {
 
 .snack-success {
   @extend .snack-base;
-  background: var(--pill, #102a25) ;
-  color: var(--ink, #eae3c8) ;
+  background: var(--pill, #102a25);
+  color: var(--ink, #eae3c8);
   border: 1px solid var(--pill-border, #1d3b34);
 }
 
@@ -271,4 +271,11 @@ h1.title {
   background: #5a1c1c !important;
   color: #ffe2e2 !important;
   border: 1px solid #7a2a2a;
+}
+
+.snack-encuesta {
+  @extend .snack-base;
+  --snack-bg: rgba(24, 28, 34, .92);
+  --snack-border: rgba(255, 255, 255, .12);
+  --snack-fg: #fff;
 }

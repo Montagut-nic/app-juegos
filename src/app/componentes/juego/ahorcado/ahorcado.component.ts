@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { Alert } from '../../../core/alert';
 import { Supabase } from '../../../core/supabase';
 import { firstValueFrom } from 'rxjs';
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './ahorcado.component.html',
   styleUrl: './ahorcado.component.scss'
 })
-export class AhorcadoComponent implements OnInit {
+export class AhorcadoComponent implements OnInit, OnDestroy {
 
   private supa = inject(Supabase);
   private alert = inject(Alert);
@@ -70,9 +70,6 @@ export class AhorcadoComponent implements OnInit {
     'encriptacion', 'deconstruir', 'credenciales', 'contraseña', 'usuario', 'puntaje', 'juegos'
   ];
 
-
-
-
   async ngOnInit() {
     this.estado.set('esperando');
     this.racha.set(0);
@@ -83,6 +80,25 @@ export class AhorcadoComponent implements OnInit {
       this.puntos.set(await this.supa.getPuntos(u.id));
     } catch (e: any) {
       this.alert.error(e.message);
+    }
+  }
+
+  async ngOnDestroy() {
+    await this.subirResultado();
+  }
+
+  async subirResultado(){
+    if (!this.authId) return;
+    const resultado = {
+      user_id: this.authId,
+      puntos: this.puntos(),
+      racha: this.racha()
+    };
+    try {
+     // TODO await this.supa.guardarResultado('ahorcado', resultado);
+    } catch (e: any) {
+      this.alert.error('Error al guardar el resultado');
+      console.error(e);
     }
   }
 
@@ -138,7 +154,7 @@ export class AhorcadoComponent implements OnInit {
     return s;
   }
 
-  jugarLetra(letra: string) {
+  async jugarLetra(letra: string) {
     if (this.estado() !== 'jugando') return;
 
     letra = this.normalizarPalabra(letra).replace(/[^A-ZÑ]/g, '');
@@ -158,7 +174,8 @@ export class AhorcadoComponent implements OnInit {
       const restantes = p.split('').filter(ch => ch !== ' ' && !ad.has(ch));
       if (restantes.length === 0) {
         this.estado.set('ganaste');
-        this.onWin();
+        await this.onWin();
+        await this.subirResultado();
       }
     } else {
       er.add(letra);
@@ -168,6 +185,7 @@ export class AhorcadoComponent implements OnInit {
       if (er.size >= this.maxErrores) {
         this.estado.set('perdiste');
         this.racha.set(0);
+        await this.subirResultado();
         this.alert.error('Perdiste. La palabra era: ' + this.palabra());
       }
     }

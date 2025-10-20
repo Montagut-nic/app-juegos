@@ -209,7 +209,6 @@ export class VeintiunoComponent implements OnInit {
       this.resultado.set(null);
       this.alert.error('Ocurrió un error');
     }
-
     this.estado.set('fin');
   }
 

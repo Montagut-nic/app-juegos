@@ -1,0 +1,44 @@
+:host {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.snack-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.msg {
+    font-weight: 600;
+}
+
+.actions {
+    display: inline-flex;
+    gap: 8px;
+    margin-left: 8px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter .15s ease, box-shadow .15s ease, transform .02s ease;
+}
+
+.pill:hover {
+    filter: brightness(1.05);
+}
+
+.pill:active {
+    transform: translateY(1px);
+}
