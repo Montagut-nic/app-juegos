@@ -265,4 +265,18 @@ export class Supabase {
     if (error) throw error;
     return (count ?? 0) > 0;
   }
+
+  async guardarResultado(juego: 'trivia'|'ahorcado'|'veintiuno'|'mayor-menor', user_id: string, puntos: number, racha: number): Promise<any | void> {
+    const { data, error } = await this._client
+      .from('ranking')
+      .insert({
+        juego,
+        user_id,
+        puntaje: puntos,
+        racha
+      });
+    if (error) throw error;
+    return data;
+  }
+
 }

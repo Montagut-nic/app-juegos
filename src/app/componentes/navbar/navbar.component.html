@@ -7,10 +7,10 @@
         <div>
             <app-boton [nombreBoton]="'Home'" [Router_Link]="'home'"></app-boton>
             <app-boton [nombreBoton]="'Quién soy'" [Router_Link]="'quien-soy'"></app-boton>
-            <app-boton [nombreBoton]="'Ranking'" [Router_Link]="'ranking'"></app-boton>
+            <app-boton [nombreBoton]="'Rankings'" [Router_Link]="'ranking'"></app-boton>
             @if (isLoggedIn) {
             <app-boton [nombreBoton]="'Encuesta'" [Router_Link]="'encuesta'"></app-boton>
-            <app-boton [nombreBoton]="'Perfil'" [Router_Link]="'perfil'"></app-boton>
+            <!-- <app-boton [nombreBoton]="'Perfil'" [Router_Link]="'perfil'"></app-boton> --->
             <button class="pill" (click)="logout()">Cerrar sesión</button>
             } @else {
             <app-boton [nombreBoton]="'Iniciar sesión'" [Router_Link]="'login'"></app-boton>

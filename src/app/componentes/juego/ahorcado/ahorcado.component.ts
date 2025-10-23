@@ -87,15 +87,14 @@ export class AhorcadoComponent implements OnInit, OnDestroy {
     await this.subirResultado();
   }
 
-  async subirResultado(){
+  async subirResultado() {
     if (!this.authId) return;
-    const resultado = {
-      user_id: this.authId,
-      puntos: this.puntos(),
-      racha: this.racha()
-    };
+
+    let user_id = this.authId;
+    let racha = this.racha();
+
     try {
-     // TODO await this.supa.guardarResultado('ahorcado', resultado);
+      await this.supa.guardarResultado('ahorcado', user_id, 0, racha);
     } catch (e: any) {
       this.alert.error('Error al guardar el resultado');
       console.error(e);
@@ -184,8 +183,8 @@ export class AhorcadoComponent implements OnInit, OnDestroy {
       this.actualizarStageConAnim(rem);
       if (er.size >= this.maxErrores) {
         this.estado.set('perdiste');
-        this.racha.set(0);
         await this.subirResultado();
+        this.racha.set(0);
         this.alert.error('Perdiste. La palabra era: ' + this.palabra());
       }
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Supabase } from '../../../core/supabase';
@@ -12,11 +12,12 @@ type PokemonBasic = { id: number; name: string; image: string };
   templateUrl: './trivia.component.html',
   styleUrl: './trivia.component.scss'
 })
-export class TriviaComponent implements OnInit {
+export class TriviaComponent implements OnInit, OnDestroy {
 
   private http = inject(HttpClient);
   private supa = inject(Supabase);
   private alert = inject(Alert);
+  racha = signal<number>(0);
 
   // Estado de usuario (puntos)
   authId: string | null = null;
@@ -43,6 +44,23 @@ export class TriviaComponent implements OnInit {
     } else {
       // fallback (no debería ocurrir si tenés guard)
       this.nextRound();
+    }
+  }
+
+  async ngOnDestroy() {
+    await this.subirResultado();
+  }
+
+  async subirResultado() {
+    if (!this.authId) return;
+
+    let user_id = this.authId;
+    let racha = this.racha();
+    try {
+      await this.supa.guardarResultado('trivia', user_id, 0, racha);
+    } catch (e: any) {
+      this.alert.error('Error al guardar el resultado');
+      console.error(e);
     }
   }
 
@@ -93,12 +111,23 @@ export class TriviaComponent implements OnInit {
     if (correct) {
       try {
         await this.supa.setPuntos(this.authId!, this.puntos + 1);
+        this.racha.update(r => r + 1);
         this.alert.success('¡Correcto! +1 punto', { verticalPosition: 'top' });
       } catch (e) {
         this.alert.error('Adivinaste, pero ocurrió un error al cargar los puntos.', { verticalPosition: 'top' });
       }
     } else {
       this.alert.error('¡Incorrecto! La respuesta correcta era ' + this.pokemon!.name, { verticalPosition: 'top' });
+      if (this.racha() > 0) {
+        try {
+          await this.supa.guardarResultado('trivia', this.authId!, this.puntos, this.racha());
+        } catch (error) {
+          this.alert.error('Error al guardar el resultado');
+          console.error(error);
+        } finally {
+          this.racha.set(0);
+        }
+      }
     }
   }
 

@@ -168,10 +168,17 @@ export class VeintiunoComponent implements OnInit {
     } else if (total > 21) {
       this.estado.set('fin');
       this.resultado.set('pierde');
-      this.racha.set(0);
       this.alert.error('Te pasaste de 21. Perdiste el pozo.', { verticalPosition: 'top' });
-      this.pozo.set(0);
-      this.apuesta.set(0);
+      try {
+        await this.supa.guardarResultado('veintiuno', this.authId!, 0, this.racha());
+      } catch (error) {
+        this.alert.error('Error al guardar el resultado');
+        console.error(error);
+      } finally {
+        this.pozo.set(0);
+        this.apuesta.set(0);
+        this.racha.set(0);
+      }
     }
   }
 
@@ -200,10 +207,17 @@ export class VeintiunoComponent implements OnInit {
     } else if (b >= j) {
       // empate también lo gana la banca
       this.resultado.set('pierde');
-      this.racha.set(0);
       this.alert.error('La banca te igualó o superó. Perdiste.', { verticalPosition: 'top' });
-      this.pozo.set(0);
-      this.apuesta.set(0);
+      try {
+        await this.supa.guardarResultado('veintiuno', this.authId!, 0, this.racha());
+      } catch (error) {
+        this.alert.error('Error al guardar el resultado');
+        console.error(error);
+      } finally {
+        this.pozo.set(0);
+        this.apuesta.set(0);
+        this.racha.set(0);
+      }
     } else {
       // (no debería darse por la condición del while, pero por seguridad)
       this.resultado.set(null);
@@ -222,15 +236,18 @@ export class VeintiunoComponent implements OnInit {
       await this.supa.setPuntos(this.authId, nuevo);
       this.puntos.set(nuevo);
       this.alert.success(`Sumaste ${this.pozo()} punto(s).`);
-    } catch {
-      this.alert.error('No se pudo actualizar el puntaje.');
+      await this.supa.guardarResultado('veintiuno', this.authId!, this.pozo(), this.racha());
+    } catch (error) {
+      this.alert.error('Error al guardar el resultado');
+      console.error(error);
+    } finally {
+      // Volver al estado de setear apuesta
+      this.estado.set('apuesta');
+      this.apuesta.set(0);
+      this.pozo.set(0);
+      this.racha.set(0);
+      this.clearDiceInstant();
     }
-
-    // Volver al estado de setear apuesta
-    this.estado.set('apuesta');
-    this.apuesta.set(0);
-    this.pozo.set(0);
-    this.clearDiceInstant();
   }
 
   duplicarYSeguir() {

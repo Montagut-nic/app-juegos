@@ -1,31 +1,38 @@
-<section class="poke-shell">
-    <footer class="controls">
-        <button class="pill" (click)="nextRound()" [disabled]="loading || !revealed">
-            Siguiente
-        </button>
-    </footer>
-    <div class="stage">
-        <div class="card">
-            <div class="img-wrap" [class.silhouette]="!revealed">
-                <ng-container *ngIf="loading; else img">
-                    <div class="spinner"></div>
-                </ng-container>
-                <ng-template #img>
-                    <img [src]="pokemon?.image || ''" [alt]="pokemon?.name || 'Pokémon'" />
-                </ng-template>
-            </div>
+<main class="container">
+    <section class="poke-shell">
+        <footer class="controls">
+            <button class="pill" (click)="nextRound()" [disabled]="loading || !revealed">
+                Siguiente
+            </button>
+        </footer>
+        <div class="stage">
+            <div class="card">
+                <div class="img-wrap" [class.silhouette]="!revealed">
+                    <ng-container *ngIf="loading; else img">
+                        <div class="spinner"></div>
+                    </ng-container>
+                    <ng-template #img>
+                        <img [src]="pokemon?.image || ''" [alt]="pokemon?.name || 'Pokémon'" />
+                    </ng-template>
+                </div>
 
-            <div class="question">¿Quién es ese Pokémon?</div>
-            @if (revealed){<div class="question">¡Es {{ pokemon?.name }}!</div>}
+                <div class="question">¿Quién es ese Pokémon?</div>
+                @if (revealed){<div class="question">¡Es {{ pokemon?.name }}!</div>}
 
-            <div class="options">
-                @for(opt of options; track $index){
-                <button class="pill opt" [class.correct]="revealed && opt === (pokemon?.name || '')"
-                    [class.wrong]="revealed && selected === opt && opt !== (pokemon?.name || '')"
-                    [disabled]="loading || revealed" (click)="selectOption(opt)">
-                    {{ opt }}
-                </button>}
+                <div class="options">
+                    @for(opt of options; track $index){
+                    <button class="pill opt" [class.correct]="revealed && opt === (pokemon?.name || '')"
+                        [class.wrong]="revealed && selected === opt && opt !== (pokemon?.name || '')"
+                        [disabled]="loading || revealed" (click)="selectOption(opt)">
+                        {{ opt }}
+                    </button>}
+                </div>
             </div>
+            <aside class="streak-panel" aria-label="Racha de aciertos">
+                <div class="streak-title">Racha</div>
+                <!-- Usá la que tengas: signal (racha()) o variable normal (racha) -->
+                <div class="streak-value">{{ racha() }}</div>
+            </aside>
         </div>
-    </div>
-</section>
+    </section>
+</main>

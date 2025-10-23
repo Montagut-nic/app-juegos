@@ -1,1 +1,232 @@
-<p>ranking works!</p>
+<main class="rk container">
+    <header class="rk-header">
+        <h2>Rankings</h2>
+        <button class="pill" (click)="cargar()" [disabled]="loading()">Actualizar</button>
+    </header>
+
+    @if (error()) {
+    <div class="rk-banner rk-err">{{ error() }}</div>
+    }
+
+    @if (loading()) {
+    <div class="rk-loading">Cargando rankings…</div>
+    } @else {
+    <section class="rk-grid">
+        <!-- Ahorcado - Racha -->
+        <article class="rk-card">
+            <h3>Ahorcado — Top racha</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Racha</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of ahorcadoRacha(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                            }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+
+        <!-- Mayor o Menor - Racha -->
+        <article class="rk-card">
+            <h3>Mayor o Menor — Top racha</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Racha</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of mayorRacha(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                            }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+
+        <!-- Mayor o Menor - Pozo -->
+        <article class="rk-card">
+            <h3>Mayor o Menor — Top pozo retirado</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Pozo</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of mayorPozo(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                            }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+
+        <!-- Trivia - Racha -->
+        <article class="rk-card">
+            <h3>Trivia Pokémon — Top racha</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Racha</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of triviaRacha(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                            }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+
+        <!-- Veintiuno - Racha -->
+        <article class="rk-card">
+            <h3>Veintiuno con dados — Top racha</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Racha</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of veintiunoRacha(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                        }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+
+        <!-- Veintiuno - Pozo -->
+        <article class="rk-card">
+            <h3>Veintiuno con dados — Top pozo retirado</h3>
+            <table class="rk-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Pozo</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of veintiunoPozo(); track row.user_id) {
+                    <tr>
+                        <td class="pos">{{ row.pos }}</td>
+                        <td class="player">{{ row.nombre }}</td>
+                        <td class="val">{{ row.valor }}</td>
+                        <td class="fecha">{{ row.fecha.toLocaleDateString("es-AR", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                        }) }}</td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty">Sin datos</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </article>
+    </section>
+    }
+</main>

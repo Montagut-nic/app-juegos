@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
+import { Component, inject, signal, computed, effect, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Alert } from '../../../core/alert';
@@ -15,7 +15,7 @@ type DrawResp = { success: boolean; deck_id: string; remaining: number; shuffled
   templateUrl: './mayor-menor.component.html',
   styleUrl: './mayor-menor.component.scss'
 })
-export class MayorMenorComponent {
+export class MayorMenorComponent implements OnDestroy {
 
   onKey($event: KeyboardEvent) {
     const n = ($event.target as HTMLInputElement).valueAsNumber;
@@ -36,6 +36,26 @@ export class MayorMenorComponent {
   remaining = signal<number>(0);
   usuario = signal<Usuario | null>(null);
   deckDepleted = signal(false);
+  racha = signal<number>(0);
+
+  async ngOnDestroy() {
+    await this.subirResultado();
+  }
+
+  async subirResultado() {
+    const usr = this.usuario();
+    if (!usr?.authId) return;
+
+    let user_id = usr.authId;
+    let racha = this.racha();
+
+    try {
+      await this.supabase.guardarResultado('mayor-menor', user_id, 0, racha);
+    } catch (e: any) {
+      this.alert.error('Error al guardar el resultado');
+      console.error(e);
+    }
+  }
 
 
   // Cartas
@@ -60,7 +80,7 @@ export class MayorMenorComponent {
       if (!u) { this.usuario.set(null); return; }
       this.loadOrCreateUsuario(u.id);
     });
-
+    this.racha.set(0);
     // crear mazo y mostrar 1a carta
     this.nuevoMazo();
   }
@@ -226,10 +246,9 @@ export class MayorMenorComponent {
 
     if (gana) {
       this.pozo.update(p => p + this.incremento());
+      this.racha.update(r => r + 1);
       // sigue jugando; puede retirarse o seguir eligiendo
     } else {
-      // pierde el pozo
-      this.pozo.set(0);
       await this.endRound('lose');
     }
 
@@ -261,6 +280,7 @@ export class MayorMenorComponent {
     this.apuesta.set(0);
     this.incremento.set(1);
     this.pozo.set(0);
+    this.racha.set(0);
     this.estado.set('apuesta');
     if (!this.cartaActual()) await this.drawPrimera();
   }
@@ -281,6 +301,13 @@ export class MayorMenorComponent {
       this.estado.set('fin');
       this.bloqueado.set(true);
       this.alert.error('Fallaste: perdiste el pozo');
+      try {
+        await this.supabase.guardarResultado('mayor-menor', usr!.authId, this.pozo(), this.racha());
+        this.racha.set(0);
+      } catch (error) {
+        this.alert.error('Error al guardar el resultado');
+        console.error(error);
+      }
       return;
     }
 
@@ -296,6 +323,12 @@ export class MayorMenorComponent {
       this.alert.info(
         reason === 'deck' ? 'Mazo agotado' : 'Sin pozo para cobrar'
       );
+    }
+    try {
+      await this.supabase.guardarResultado('mayor-menor', usr!.authId, this.pozo(), this.racha());
+    } catch (error) {
+      this.alert.error('Error al guardar el resultado');
+      console.error(error);
     }
 
     this.estado.set('fin');
