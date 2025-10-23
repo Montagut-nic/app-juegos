@@ -8,6 +8,7 @@ import { authMatchGuard } from './guards/auth-match-guard';
 import { guestGuard, guestMatchGuard } from './guards/guest-guard';
 import { Ranking } from  './componentes/ranking/ranking';
 import { Encuesta } from  './componentes/encuesta/encuesta';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -46,7 +47,7 @@ export const routes: Routes = [
     },
     {
         path: "encuesta",
-        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
         component: Encuesta
     },
     {
