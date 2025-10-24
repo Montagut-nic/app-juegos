@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { Supabase } from '../../../core/supabase';
 import { Alert } from '../../../core/alert';
+import { Pokemon, PokemonClient } from 'pokenode-ts';
 
 type PokemonBasic = { id: number; name: string; image: string };
 
@@ -18,6 +18,11 @@ export class TriviaComponent implements OnInit, OnDestroy {
   private supa = inject(Supabase);
   private alert = inject(Alert);
   racha = signal<number>(0);
+  private api: PokemonClient;
+
+  constructor() {
+    this.api = new PokemonClient();
+  }
 
   // Estado de usuario (puntos)
   authId: string | null = null;
@@ -140,10 +145,8 @@ export class TriviaComponent implements OnInit, OnDestroy {
 
   private async fetchPokemon(id: number): Promise<PokemonBasic> {
     try {
-      const data: any = await firstValueFrom(this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`));
-      const image = data?.sprites?.other?.['official-artwork']?.front_default
-        ?? data?.sprites?.front_default
-        ?? '';
+      const data: Pokemon = await this.api.getPokemonById(id);
+      const image = data?.sprites.front_default ?? '';
       return {
         id,
         name: this.capitalizarPalabras(data?.name),
