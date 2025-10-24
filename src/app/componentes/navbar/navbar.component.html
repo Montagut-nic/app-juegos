@@ -10,6 +10,9 @@
             <app-boton [nombreBoton]="'Rankings'" [Router_Link]="'ranking'"></app-boton>
             @if (isLoggedIn) {
             <app-boton [nombreBoton]="'Encuesta'" [Router_Link]="'encuesta'"></app-boton>
+            @if (isAdmin()){
+                <app-boton [nombreBoton]="'Resultados'" [Router_Link]="'resultados'"></app-boton>
+            }
             <!-- <app-boton [nombreBoton]="'Perfil'" [Router_Link]="'perfil'"></app-boton> --->
             <button class="pill" (click)="logout()">Cerrar sesión</button>
             } @else {

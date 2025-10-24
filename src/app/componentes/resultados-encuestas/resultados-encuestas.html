@@ -1,0 +1,108 @@
+<main class="re container">
+  <header class="re-header">
+    <h2>Resultados de encuestas</h2>
+    <div class="actions">
+      <button class="pill" (click)="cargar()" [disabled]="loading()">Actualizar</button>
+    </div>
+  </header>
+
+  @if (error()) {
+    <div class="banner err">{{ error() }}</div>
+  }
+
+  <!-- KPIs -->
+   @if(!loading()){
+  <section class="grid stats">
+    <div class="card stat flex">
+      <div class="kpi">{{ total() }}</div>
+      <div class="label">Total de respuestas</div>
+    </div>
+    <div class="card stat flex">
+      <div class="kpi">{{ promedio() }}/5</div>
+      <div class="label">Promedio de estrellas</div>
+    </div>
+    <div class="card stat flex">
+      <div class="kpi">{{ recomiendaPct() }}%</div>
+      <div class="label">Recomiendan la página</div>
+    </div>
+    <div class="card favs">
+      <h3>Favoritos (Rank 1)</h3>
+      <ul>
+        <li>Ahorcado <strong>{{ favoritoCounts().ahorcado }}</strong></li>
+        <li>Mayor o Menor <strong>{{ favoritoCounts().maymen }}</strong></li>
+        <li>Veintiuno con Dados <strong>{{ favoritoCounts().veinti }}</strong></li>
+        <li>Trivia Pokémon <strong>{{ favoritoCounts().trivia }}</strong></li>
+      </ul>
+    </div>
+  </section>
+  }
+
+  <!-- Tabla -->
+  <section class="card table-wrap">
+    @if (loading()) {
+      <div class="loading">Cargando…</div>
+    } @else {
+      <table class="re-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>Edad</th>
+            <th>⭐</th>
+            <th>Recomienda</th>
+            <th>Fav (rank 1)</th>
+            <th>Ranks (Ah/MM/21/TP)</th>
+            <th>Nuevo juego</th>
+            <th>Comentario</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of filas(); track r.user_id) {
+            <tr>
+              <td class="small">{{ r.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td>
+                <div class="u">{{ this.capitalizarPalabras(r.nombre) }} {{ this.capitalizarPalabras(r.apellido) }}</div>
+                <div class="t">{{ r.tel }}</div>
+              </td>
+              <td class="num">{{ r.edad }}</td>
+              <td class="num">{{ r.puntaje_sitio }}</td>
+              <td class="num">
+                <span class="chip" [class.ok]="r.recomienda" [class.ko]="!r.recomienda">
+                  {{ r.recomienda ? 'Sí' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <span class="chip"
+                  [class.ok]="r.clas_ahorcado===1 || r.clas_maymen===1 || r.clas_veinti===1 || r.clas_trivia===1">
+                  {{
+                    r.clas_ahorcado===1 ? 'Ahorcado' :
+                    r.clas_maymen===1   ? 'Mayor o Menor' :
+                    r.clas_veinti===1   ? 'Veintiuno' :
+                    r.clas_trivia===1   ? 'Trivia Pokémon' : '—'
+                  }}
+                </span>
+              </td>
+              <td class="num">
+                {{ r.clas_ahorcado }}° / {{ r.clas_maymen }}° / {{ r.clas_veinti }}° / {{ r.clas_trivia }}°
+              </td>
+              <td class="pj">{{
+                    r.juegoNuevo==='tateti' ? 'Tateti' :
+                    r.juegoNuevo==='ppt' ? 'Piedra, Papel o Tijera' :
+                    r.juegoNuevo==='simpsons' ? 'Trivia Simpsons' :
+                    r.juegoNuevo==='banderas' ? 'Banderas del Mundo' :
+                    r.juegoNuevo==='sudoku' ? 'Sudoku' :
+                    r.juegoNuevo==='simon' ? 'Simón Dice' :
+                    r.juegoNuevo==='memotest' ? 'Memotest' :
+                    r.juegoNuevo==='snake' ? 'La Viborita' :
+                    r.juegoNuevo==='generala' ? 'Generala' : '-'
+                  }}</td>
+              <td class="cmt small">{{ r.comentarios }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="9" class="empty">No hay respuestas.</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+</main>

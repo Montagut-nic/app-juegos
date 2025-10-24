@@ -9,6 +9,8 @@ import { guestGuard, guestMatchGuard } from './guards/guest-guard';
 import { Ranking } from  './componentes/ranking/ranking';
 import { Encuesta } from  './componentes/encuesta/encuesta';
 import { authGuard } from './guards/auth-guard';
+import { ResultadosEncuestas } from './componentes/resultados-encuestas/resultados-encuestas';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
     {
@@ -49,6 +51,11 @@ export const routes: Routes = [
         path: "encuesta",
         canActivate: [authGuard],
         component: Encuesta
+    },
+    {
+        path: "resultados",
+        canActivate: [adminGuard],
+        component: ResultadosEncuestas
     },
     {
         path: "error404",

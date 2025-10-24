@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, effect, inject, signal, Signal } from '@angular/core';
 import { BotonComponent } from "../boton/boton.component";
 import { Supabase } from '../../core/supabase';
 import { Router } from '@angular/router';
@@ -16,8 +16,15 @@ export class NavbarComponent {
   private readonly supabase = inject(Supabase);
   user: Signal<User | null> = toSignal<User | null>(this.supabase.user$, { initialValue: null });
   get isLoggedIn() { return !!this.user(); }
-
+  isAdmin = signal(false);
+  
   constructor(private router: Router) {
+    effect(async () => {
+      const u = this.user();          
+      if (!u) { this.isAdmin.set(false); return; }
+      const data = await this.supabase.getUserData(u.id);
+      this.isAdmin.set(!!data?.esAdmin);
+    });
   }
 
   async logout() {
