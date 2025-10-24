@@ -19,8 +19,26 @@ export class LoginComponent {
       password: 'Trend123!'
     });
   }
-
   autocompletar2() {
+    this.form.setValue({
+      email: 'user@email.com.ar',
+      password: 'Test123!'
+    });
+  }
+  autocompletar3() {
+    this.form.setValue({
+      email: 'test@email.com.ar',
+      password: 'Trend123!'
+    });
+  }
+  autocompletar4() {
+    this.form.setValue({
+      email: 'martin@gmail.com',
+      password: 'Trend123!'
+    });
+  }
+
+  autocompletarAdmin() {
     this.form.setValue({
       email: 'montagut@gmail.com',
       password: 'Trend123!'
