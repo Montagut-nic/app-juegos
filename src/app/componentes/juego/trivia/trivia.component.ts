@@ -110,7 +110,8 @@ export class TriviaComponent implements OnInit, OnDestroy {
     this.revealed = true;
     if (correct) {
       try {
-        await this.supa.setPuntos(this.authId!, this.puntos + 1);
+        this.puntos += 1;
+        await this.supa.setPuntos(this.authId!, this.puntos);
         this.racha.update(r => r + 1);
         this.alert.success('¡Correcto! +1 punto', { verticalPosition: 'top' });
       } catch (e) {

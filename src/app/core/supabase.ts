@@ -220,8 +220,6 @@ export class Supabase {
         }
       )
       .subscribe((status) => {
-        // loggear status
-        console.log('chat channel status', status);
       });
 
     return () => this.unsubscribeChat();

@@ -13,7 +13,7 @@
             <div class="card apuesta">
                 <label class="apuesta__field">
                     <span>Confirmar apuesta</span>
-                    <input type="number" min="0" step="1" [max]="usuario()?.puntos ?? 0" [value]="apuesta()"
+                    <input type="number" min="0" [max]="usuario()?.puntos ?? 0" [value]="apuesta()"
                         (input)="onApuestaInput($event)" (keyup)="onKey($event)" />
                     @if(!apuestaValida()){
                     <small class="err">Ingresá una apuesta mayor o igual a 0.</small>
