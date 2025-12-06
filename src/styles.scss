@@ -58,21 +58,22 @@ body::before {
 }
 
 .nav {
-  width: min(1100px, 94vw);
+  min-width: max-content;
+  max-width: min-content;
   margin: 0 auto;
   background: linear-gradient(180deg, rgb(3, 25, 22), rgba(3, 25, 22));
   border: 1px solid rgba(255, 255, 255, .06);
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 10px 20px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 40px;
 
   div {
     display: flex;
-    gap: 20px;
+    gap: 10px;
   }
 }
 
@@ -105,14 +106,6 @@ body::before {
   background: var(--pill-active);
   color: var(--ink);
   border-color: #2a4d44
-}
-
-.divider-shadow {
-  width: min(1100px, 94vw);
-  height: 10px;
-  margin: 0 auto;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, .55);
-  border-radius: 0 0 14px 14px;
 }
 
 .container {

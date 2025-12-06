@@ -14,9 +14,7 @@ export class JuegoComponent implements OnInit, OnDestroy {
 
   private supa = inject(Supabase);
   private router = inject(Router);
-  private alert = inject(Alert);
 
-  userName = '';
   authId: string | null = null;
   puntos = 0;
 
@@ -49,7 +47,6 @@ export class JuegoComponent implements OnInit, OnDestroy {
     try {
       const data = await this.supa.getUserData(this.authId);
       this.puntos = data?.puntos;
-      this.userName = data?.name;
     } catch (e) {
       console.warn('No se pudo refrescar usuario:', e);
     }

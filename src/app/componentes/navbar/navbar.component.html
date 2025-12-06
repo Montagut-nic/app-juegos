@@ -11,15 +11,17 @@
             @if (isLoggedIn) {
             <app-boton [nombreBoton]="'Encuesta'" [Router_Link]="'encuesta'"></app-boton>
             @if (isAdmin()){
-                <app-boton [nombreBoton]="'Resultados'" [Router_Link]="'resultados'"></app-boton>
+            <app-boton [nombreBoton]="'Resultados'" [Router_Link]="'resultados'"></app-boton>
             }
             <!-- <app-boton [nombreBoton]="'Perfil'" [Router_Link]="'perfil'"></app-boton> --->
             <button class="pill" (click)="logout()">Cerrar sesión</button>
+            <span class="u-name">
+                Hola, {{ username() || "Usuario" }}
+            </span>
             } @else {
             <app-boton [nombreBoton]="'Iniciar sesión'" [Router_Link]="'login'"></app-boton>
             <app-boton [nombreBoton]="'Registrarse'" [Router_Link]="'register'"></app-boton>
             }
         </div>
     </nav>
-    <div class="divider-shadow"></div>
 </header>

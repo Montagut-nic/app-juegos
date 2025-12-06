@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+
 @Component({
   standalone: true,
   selector: 'app-navbar',
@@ -17,15 +18,18 @@ export class NavbarComponent {
   user: Signal<User | null> = toSignal<User | null>(this.supabase.user$, { initialValue: null });
   get isLoggedIn() { return !!this.user(); }
   isAdmin = signal(false);
-  
+  username = signal<string | null>(null);
+
   constructor(private router: Router) {
     effect(async () => {
-      const u = this.user();          
+      const u = this.user();
       if (!u) { this.isAdmin.set(false); return; }
       const data = await this.supabase.getUserData(u.id);
       this.isAdmin.set(!!data?.esAdmin);
+      this.username.set(data?.name || null);
     });
   }
+
 
   async logout() {
     try {

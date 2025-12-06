@@ -1,35 +1,73 @@
-@media (max-width: 720px){
-  .nav{ flex-wrap:wrap; row-gap:10px; }
-  .brand{ flex:1 1 100%; text-align:center; }
-  .pills{ width:100%; justify-content:center; flex-wrap:wrap; }
+@media (max-width: 720px) {
+  .nav {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
+  .brand {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .pills {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 
-.pills{ display:flex; gap:12px; }
-.pill{
-  appearance:none; border:1px solid var(--pill-border,#1d3b34);
-  background: var(--pill,#102a25); color: var(--muted,#c8c3ae);
-  border-radius:12px; padding:10px 18px; font:600 14.5px/1.1 system-ui;
-  transition: background-color .15s, color .15s, filter .15s;
-  cursor:pointer; white-space:nowrap;
+.pills {
+  display: flex;
+  gap: 12px;
 }
-.pill:hover{ filter:brightness(1.08); }
-.pill.active, .pill:disabled{
-  background: var(--ink,#eae3c8);
-  color: var(--pill,#102a25);
-  border-color: var(--ink,#eae3c8);
+
+.pill {
+  appearance: none;
+  border: 1px solid var(--pill-border, #1d3b34);
+  background: var(--pill, #102a25);
+  color: var(--muted, #c8c3ae);
+  border-radius: 12px;
+  padding: 10px 18px;
+  font: 600 14.5px/1.1 system-ui;
+  transition: background-color .15s, color .15s, filter .15s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  filter: brightness(1.08);
+}
+
+.pill.active,
+.pill:disabled {
+  background: var(--ink, #eae3c8);
+  color: var(--pill, #102a25);
+  border-color: var(--ink, #eae3c8);
   cursor: default;
 }
 
-.brand-group{
-  display:flex;
-  align-items:center;
-  gap:10px; /* separación logo ↔ nombre */
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* separación logo ↔ nombre */
 }
 
-.brand-logo{
-  object-fit:contain;
-  height:50px;
-  display:block; /* evita espacios raros en línea */
+.brand-logo {
+  object-fit: contain;
+  height: 50px;
+  display: block;
+  /* evita espacios raros en línea */
 }
 
-.pill:active{ transform: translateY(1px); box-shadow: inset 0 -1px 0 rgba(255,255,255,.02); }
+.u-name {
+  color: var(--muted, #c8c3ae);
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.pill:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .02);
+}
