@@ -33,7 +33,7 @@ export class NavbarComponent {
 
   async logout() {
     try {
-      await this.supabase.client.auth.signOut();
+      await this.supabase.logOut();
       await this.router.navigateByUrl('/login', { replaceUrl: true });
     } catch (e) {
       console.error('Error al cerrar sesión', e);

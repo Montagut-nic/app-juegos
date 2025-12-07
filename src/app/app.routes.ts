@@ -5,7 +5,7 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { Error404 } from './componentes/error-404/error-404';
 import { QuienSoy } from './componentes/quien-soy/quien-soy';
 import { authMatchGuard } from './guards/auth-match-guard';
-import { guestGuard, guestMatchGuard } from './guards/guest-guard';
+import { guestGuard } from './guards/guest-guard';
 import { Ranking } from  './componentes/ranking/ranking';
 import { Encuesta } from  './componentes/encuesta/encuesta';
 import { authGuard } from './guards/auth-guard';
@@ -28,13 +28,11 @@ export const routes: Routes = [
     },
     {
         path: "login",
-        canMatch: [guestMatchGuard],
         canActivate: [guestGuard],
         component: LoginComponent
     },
     {
         path: "register",
-        canMatch: [guestMatchGuard],
         canActivate: [guestGuard],
         component: RegistroComponent
     },

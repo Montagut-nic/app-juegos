@@ -6,7 +6,6 @@ export const authGuard: CanActivateFn = async (_route, state) => {
   const supa = inject(Supabase);
   const router = inject(Router);
 
-  // si ya tenés isLoggedIn(): Promise<boolean>
   const logged = await supa.isLoggedIn();
   if (logged) return true;
 

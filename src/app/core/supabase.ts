@@ -66,8 +66,8 @@ export class Supabase {
   }
 
   async isLoggedIn(): Promise<boolean> {
-    const session = await this.session;
-    return !!session;
+    const { data } = await this._client.auth.getSession();
+    return !!data.session;
   }
 
   async logInWithPassword(email: string, password: string): Promise<User> {
@@ -275,6 +275,13 @@ export class Supabase {
       });
     if (error) throw error;
     return data;
+  }
+
+  async logOut(): Promise<void> {
+    const { error } = await this._client.auth.signOut();
+    this._session$.next(null);
+    this._user$.next(null);
+    if (error) throw error;
   }
 
 }
